@@ -8,13 +8,15 @@
 #include <string>
 #include <iostream>
 
-//This is a lookup table for the orientation of a cube. There are 24 different possible orientations (6 different top sides and 4 different side rotations of each) and the table entry
-//indicates the new orientation obtained by applying a rotation from the second index, or column, to an existing orientation to the row, or first index.
-//Table dervied from https://k-l-lambda.github.io/2020/12/14/rubik-cube-notation/
-
+//Enum for enumerating possible cube orientations and a mapping vector for printing out orientations
 enum {alpha, beta, gamma, delta, epsilon, zeta, eta, theta, iota, kappa, lambda, mu, nu, xi, omicron, pi, rho, sigma, tau, upsilon, phi, chi, psi, omega};
 std::vector<std::string> orientationLiterals = {"alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", 
                                                 "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega"};
+
+
+//This is a lookup table for the orientation of a cube. There are 24 different possible orientations (6 different top sides and 4 different side rotations of each) and the table entry
+//indicates the new orientation obtained by applying a rotation from the second index, or column, to an existing orientation to the row, or first index.
+//Table dervied from https://k-l-lambda.github.io/2020/12/14/rubik-cube-notation/
 
 int rotation_table[24][24] = {
     {alpha, beta, gamma, delta, epsilon, zeta, eta, theta, iota, kappa, lambda, mu, nu, xi, omicron, pi, rho, sigma, tau, upsilon, phi, chi, psi, omega},
@@ -51,20 +53,21 @@ int lookupOrientation(const int startingOrientation, const int rotation) {
     return rotation_table[startingOrientation][rotation];
 }
 
-/*This is a mapping from the starting positions to the current positions of the cube and an orientation. A row indicates the cubelet considered, and the first number in
-the tuple is a indication of its current position in the fixed cube. The second number in the tuple is the cubelet's current orientation. */
-//Table derived from https://k-l-lambda.github.io/2020/12/14/rubik-cube-notation/
+/*This is a representation of the orientation of each cubelet that exists in the position of the index. This uniquely identifies the cubelet and 
+uniquely identifies a state, although it is subject to prespective and does represent redundant states. Currentlry, this model is actually entirely ignorant of
+the sticker colors of the cube, and instead is entirely reliant on cubelet orientations.*/
+//Design derived from https://k-l-lambda.github.io/2020/12/14/rubik-cube-notation/
 using cube = std::vector<int>;
 
 /*There are 12 different quarter twists. Each of the following functions rotate the faces of a cube. These functions operate by labeling the 2x2 rubiks cube accordingly:
-0 is the upper left front corner (arbitrarily White, Blue, Red)
-1 is the upper left back corner (White, Red, Green)
-2 is the upper right back corner (White, Green, Orange)
-3 is the upper right front corner (White, Orange Blue)
-4 is the lower left front corner (Red, Blue, Yellow)
-5 is the lower left back corner (Red, Green, Yellow)
-6 is the lower right back corner (Green, Orange, Yellow)
-7 is the lower right front corner (Orange, Blue, Yellow)
+0 is the upper left front corner
+1 is the upper left back corner
+2 is the upper right back corner
+3 is the upper right front corner
+4 is the lower left front corner
+5 is the lower left back corner
+6 is the lower right back corner
+7 is the lower right front corner
 */
 
 //PARAMETER: rubiks is the cube to be rotated
@@ -286,6 +289,10 @@ cube clone(const cube rubiks) {
     return copy;
 }
 
+//This function prints out the cube state.
+//PARAMETER: rubiks is the cube to displayed.
+//RETURNS: none
+//SIDE EFFECTS: Prints out the orientations of the cubelets to the command line
 void printCube(const cube rubiks) {
     std::cout << orientationLiterals[rubiks[0]] << "\t" << orientationLiterals[rubiks[1]] << "\t" << orientationLiterals[rubiks[2]] << "\t" << orientationLiterals[rubiks[3]] << "\t" 
               << orientationLiterals[rubiks[4]] << "\t" << orientationLiterals[rubiks[5]] << "\t" << orientationLiterals[rubiks[6]] << "\t" << orientationLiterals[rubiks[7]] << "\n";
@@ -293,19 +300,23 @@ void printCube(const cube rubiks) {
 
 //Main function that runs and handles the command-line interface of allowing a user to interact with a cube
 int main() {
+    //Variables for input and workflow
     auto playCube = Cube();
     bool runInteractive = true;
     std::string action;
 
     while (runInteractive) {
+        //Evaluate whether the cube is solved, and modify isSolvedState to indicate whether it is in later output
         auto isSolvedState = isSolved(playCube) ? "" : " not";
 
+        //Display cube, its solved status, and prompt for an action
         std::cout << "Here is the current cube:\n";
         printCube(playCube);
         std::cout << "The cube is" << isSolvedState << " in a solved state.\n";
         std::cout << "Enter a move in standard Rubik's cube notation or X to exit the program:" << std::endl;
         std::cin >> action;
 
+        //Execute action
         if (action == "X") {
             std::cout << "Terminating program.\n";
             runInteractive = false;
@@ -334,6 +345,7 @@ int main() {
         } else if (action == "R'") {
             rightCounterClockwise(playCube);
         } else {
+            //Give feedback if error
             std::cout << "Invalid command. Please enter one of the following moves: U, U', D, D', F, F', B, B', L, L', R, R', or X to exit the program.\n";
         }
     }
