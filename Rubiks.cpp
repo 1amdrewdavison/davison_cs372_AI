@@ -5,12 +5,18 @@
 
 #include <utility>
 #include <vector>
+#include <string>
+#include <iostream>
+
+//Enum for enumerating possible cube orientations and a mapping vector for printing out orientations
+enum {alpha, beta, gamma, delta, epsilon, zeta, eta, theta, iota, kappa, lambda, mu, nu, xi, omicron, pi, rho, sigma, tau, upsilon, phi, chi, psi, omega};
+std::vector<std::string> orientationLiterals = {"alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", 
+                                                "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega"};
+
 
 //This is a lookup table for the orientation of a cube. There are 24 different possible orientations (6 different top sides and 4 different side rotations of each) and the table entry
 //indicates the new orientation obtained by applying a rotation from the second index, or column, to an existing orientation to the row, or first index.
 //Table dervied from https://k-l-lambda.github.io/2020/12/14/rubik-cube-notation/
-
-enum {alpha, beta, gamma, delta, epsilon, zeta, eta, theta, iota, kappa, lambda, mu, nu, xi, omicron, pi, rho, sigma, tau, upsilon, phi, chi, psi, omega};
 
 int rotation_table[24][24] = {
     {alpha, beta, gamma, delta, epsilon, zeta, eta, theta, iota, kappa, lambda, mu, nu, xi, omicron, pi, rho, sigma, tau, upsilon, phi, chi, psi, omega},
@@ -47,188 +53,201 @@ int lookupOrientation(const int startingOrientation, const int rotation) {
     return rotation_table[startingOrientation][rotation];
 }
 
-/*This is a mapping from the starting positions to the current positions of the cube and an orientation. A row indicates the cubelet considered, and the first number in
-the tuple is a indication of its current position in the fixed cube. The second number in the tuple is the cubelet's current orientation. */
-//Table derived from https://k-l-lambda.github.io/2020/12/14/rubik-cube-notation/
-using cube = std::vector<std::pair<int, int>>;
+/*This is a representation of the orientation of each cubelet that exists in the position of the index. This uniquely identifies the cubelet and 
+uniquely identifies a state, although it is subject to prespective and does represent redundant states. Currentlry, this model is actually entirely ignorant of
+the sticker colors of the cube, and instead is entirely reliant on cubelet orientations.*/
+//Design derived from https://k-l-lambda.github.io/2020/12/14/rubik-cube-notation/
+using cube = std::vector<int>;
 
 /*There are 12 different quarter twists. Each of the following functions rotate the faces of a cube. These functions operate by labeling the 2x2 rubiks cube accordingly:
-0 is the upper left front corner (arbitrarily White, Blue, Red)
-1 is the upper left back corner (White, Red, Green)
-2 is the upper right back corner (White, Green, Orange)
-3 is the upper right front corner (White, Orange Blue)
-4 is the lower left front corner (Red, Blue, Yellow)
-5 is the lower left back corner (Red, Green, Yellow)
-6 is the lower right back corner (Green, Orange, Yellow)
-7 is the lower right front corner (Orange, Blue, Yellow)
+0 is the upper left front corner
+1 is the upper left back corner
+2 is the upper right back corner
+3 is the upper right front corner
+4 is the lower left front corner
+5 is the lower left back corner
+6 is the lower right back corner
+7 is the lower right front corner
 */
 
 //PARAMETER: rubiks is the cube to be rotated
 //RETURNS: None
 //SIDE EFFECTS: rotates the corners of the upper face clockwise
 void upperClockwise(cube& rubiks) {
-    rubiks[0].first = 1;
-    rubiks[0].second = lookupOrientation(rubiks[0].second, zeta);
-    rubiks[1].first = 2;
-    rubiks[1].second = lookupOrientation(rubiks[1].second, zeta);
-    rubiks[2].first = 3;
-    rubiks[2].second = lookupOrientation(rubiks[2].second, zeta);
-    rubiks[3].first = 0;
-    rubiks[3].second = lookupOrientation(rubiks[3].second, zeta);
+    auto orientation0 = rubiks[0];
+    auto orientation1 = rubiks[1];
+    auto orientation2 = rubiks[2];
+    auto orientation3 = rubiks[3];
+
+    rubiks[0] = lookupOrientation(orientation3, zeta);
+    rubiks[1] = lookupOrientation(orientation0, zeta);
+    rubiks[2] = lookupOrientation(orientation1, zeta);
+    rubiks[3] = lookupOrientation(orientation2, zeta);
 }
 
 //PARAMETER: rubiks is the cube to be rotated
 //RETURNS: None
 //SIDE EFFECTS: rotates the corners of the upper face counterclockwise
 void upperCounterClockwise(cube& rubiks) {
-    rubiks[0].first = 3;
-    rubiks[0].second = lookupOrientation(rubiks[0].second, iota);
-    rubiks[1].first = 0;
-    rubiks[1].second = lookupOrientation(rubiks[1].second, iota);
-    rubiks[2].first = 1;
-    rubiks[2].second = lookupOrientation(rubiks[2].second, iota);
-    rubiks[3].first = 2;
-    rubiks[3].second = lookupOrientation(rubiks[3].second, iota);
+    auto orientation0 = rubiks[0];
+    auto orientation1 = rubiks[1];
+    auto orientation2 = rubiks[2];
+    auto orientation3 = rubiks[3];
+
+    rubiks[0] = lookupOrientation(orientation1, iota);
+    rubiks[1] = lookupOrientation(orientation2, iota);
+    rubiks[2] = lookupOrientation(orientation3, iota);
+    rubiks[3] = lookupOrientation(orientation0, iota);
 }
 
 //PARAMETER: rubiks is the cube to be rotated
 //RETURNS: None
 //SIDE EFFECTS: rotates the corners of the bottom face clockwise
 void downClockwise(cube&rubiks) {
-    rubiks[4].first = 7;
-    rubiks[4].second = lookupOrientation(rubiks[4].second, iota);
-    rubiks[5].first = 4;
-    rubiks[5].second = lookupOrientation(rubiks[5].second, iota);
-    rubiks[6].first = 5;
-    rubiks[6].second = lookupOrientation(rubiks[6].second, iota);
-    rubiks[7].first = 6;
-    rubiks[7].second = lookupOrientation(rubiks[7].second, iota);
+    auto orientation4 = rubiks[4];
+    auto orientation5 = rubiks[5];
+    auto orientation6 = rubiks[6];
+    auto orientation7 = rubiks[7];
+
+    rubiks[4] = lookupOrientation(orientation5, iota);
+    rubiks[5] = lookupOrientation(orientation6, iota);
+    rubiks[6] = lookupOrientation(orientation7, iota);
+    rubiks[7] = lookupOrientation(orientation4, iota);
 }
 
 //PARAMETER: rubiks is the cube to be rotated
 //RETURNS: None
 //SIDE EFFECTS: rotates the corners of the down face counterclockwise
 void downCounterClockwise(cube& rubiks) {
-    rubiks[4].first = 5;
-    rubiks[4].second = lookupOrientation(rubiks[4].second, zeta);
-    rubiks[5].first = 6;
-    rubiks[5].second = lookupOrientation(rubiks[5].second, zeta);
-    rubiks[6].first = 7;
-    rubiks[6].second = lookupOrientation(rubiks[6].second, zeta);
-    rubiks[7].first = 4;
-    rubiks[7].second = lookupOrientation(rubiks[7].second, zeta);
+    auto orientation4 = rubiks[4];
+    auto orientation5 = rubiks[5];
+    auto orientation6 = rubiks[6];
+    auto orientation7 = rubiks[7];
+    
+    rubiks[4] = lookupOrientation(orientation7, zeta);
+    rubiks[5] = lookupOrientation(orientation4, zeta);
+    rubiks[6] = lookupOrientation(orientation5, zeta);
+    rubiks[7] = lookupOrientation(orientation6, zeta);
 }
 
 //PARAMETER: rubiks is the cube to be rotated
 //RETURNS: None
 //SIDE EFFECTS: rotates the corners of the front face clockwise
 void frontClockwise(cube& rubiks) {
-    rubiks[0].first = 3;
-    rubiks[0].second = lookupOrientation(rubiks[0].second, eta);
-    rubiks[3].first = 7;
-    rubiks[3].second = lookupOrientation(rubiks[3].second, eta);
-    rubiks[4].first = 0;
-    rubiks[4].second = lookupOrientation(rubiks[4].second, eta);
-    rubiks[7].first = 4;
-    rubiks[7].second = lookupOrientation(rubiks[7].second, eta);
+    auto orientation0 = rubiks[0];
+    auto orientation3 = rubiks[3];
+    auto orientation4 = rubiks[4];
+    auto orientation7 = rubiks[7];
+
+    rubiks[0] = lookupOrientation(orientation4, eta);
+    rubiks[3] = lookupOrientation(orientation0, eta);
+    rubiks[4] = lookupOrientation(orientation7, eta);
+    rubiks[7] = lookupOrientation(orientation3, eta);
 }
 
 //PARAMETER: rubiks is the cube to be rotated
 //RETURNS: None
 //SIDE EFFECTS: rotates the corners of the front face counterclockwise
 void frontCounterClockwise(cube& rubiks) {
-    rubiks[0].first = 4;
-    rubiks[0].second = lookupOrientation(rubiks[0].second, kappa);
-    rubiks[3].first = 0;
-    rubiks[3].second = lookupOrientation(rubiks[3].second, kappa);
-    rubiks[4].first = 7;
-    rubiks[4].second = lookupOrientation(rubiks[4].second, kappa);
-    rubiks[7].first = 3;
-    rubiks[7].second = lookupOrientation(rubiks[7].second, kappa);
+    auto orientation0 = rubiks[0];
+    auto orientation3 = rubiks[3];
+    auto orientation4 = rubiks[4];
+    auto orientation7 = rubiks[7];
+
+    rubiks[0] = lookupOrientation(orientation3, kappa);
+    rubiks[3] = lookupOrientation(orientation7, kappa);
+    rubiks[4] = lookupOrientation(orientation0, kappa);
+    rubiks[7] = lookupOrientation(orientation4, kappa);
 }
 
 //PARAMETER: rubiks is the cube to be rotated
 //RETURNS: None
 //SIDE EFFECTS: rotates the corners of the back face clockwise
-void backClockwise(cube& rubiks) {
-    rubiks[1].first = 5;
-    rubiks[1].second = lookupOrientation(rubiks[1].second, kappa);
-    rubiks[2].first = 1;
-    rubiks[2].second = lookupOrientation(rubiks[2].second, kappa);
-    rubiks[5].first = 6;
-    rubiks[5].second = lookupOrientation(rubiks[5].second, kappa);
-    rubiks[6].first = 2;
-    rubiks[6].second = lookupOrientation(rubiks[6].second, kappa);
+void backClockwise(cube& rubiks) {\
+    auto orientation1 = rubiks[1];
+    auto orientation2 = rubiks[2];
+    auto orientation5 = rubiks[5];
+    auto orientation6 = rubiks[6];
+
+    rubiks[1] = lookupOrientation(orientation2, kappa);
+    rubiks[2] = lookupOrientation(orientation6, kappa);
+    rubiks[5] = lookupOrientation(orientation1, kappa);
+    rubiks[6] = lookupOrientation(orientation5, kappa);
 }
 
 //PARAMETER: rubiks is the cube to be rotated
 //RETURNS: None
 //SIDE EFFECTS: rotates the corners of the back face counterclockwise
 void backCounterClockwise(cube& rubiks) {
-    rubiks[1].first = 2;
-    rubiks[1].second = lookupOrientation(rubiks[1].second, eta);
-    rubiks[2].first = 6;
-    rubiks[2].second = lookupOrientation(rubiks[2].second, eta);
-    rubiks[5].first = 1;
-    rubiks[5].second = lookupOrientation(rubiks[5].second, eta);
-    rubiks[6].first = 5;
-    rubiks[6].second = lookupOrientation(rubiks[6].second, eta);
+    auto orientation1 = rubiks[1];
+    auto orientation2 = rubiks[2];
+    auto orientation5 = rubiks[5];
+    auto orientation6 = rubiks[6];
+    
+    rubiks[1] = lookupOrientation(orientation5, eta);
+    rubiks[2] = lookupOrientation(orientation1, eta);
+    rubiks[5] = lookupOrientation(orientation6, eta);
+    rubiks[6] = lookupOrientation(orientation2, eta);
 }
 
 //PARAMETER: rubiks is the cube to be rotated
 //RETURNS: None
 //SIDE EFFECTS: rotates the corners of the left face clockwise
 void leftClockwise(cube& rubiks) {
-    rubiks[0].first = 4;
-    rubiks[0].second = lookupOrientation(rubiks[0].second, theta);
-    rubiks[1].first = 0;
-    rubiks[1].second = lookupOrientation(rubiks[1].second, theta);
-    rubiks[4].first = 5;
-    rubiks[4].second = lookupOrientation(rubiks[4].second, theta);
-    rubiks[5].first = 1;
-    rubiks[5].second = lookupOrientation(rubiks[5].second, theta);
+    auto orientation0 = rubiks[0];
+    auto orientation1 = rubiks[1];
+    auto orientation4 = rubiks[4];
+    auto orientation5 = rubiks[5];
+
+    rubiks[0] = lookupOrientation(orientation1, theta);
+    rubiks[1] = lookupOrientation(orientation5, theta);
+    rubiks[4] = lookupOrientation(orientation0, theta);
+    rubiks[5] = lookupOrientation(orientation4, theta);
 }
 
 //PARAMETER: rubiks is the cube to be rotated
 //RETURNS: None
 //SIDE EFFECTS: rotates the corners of the left face counterclockwise
 void leftCounterClockwise(cube& rubiks) {
-    rubiks[0].first = 1;
-    rubiks[0].second = lookupOrientation(rubiks[0].second, epsilon);
-    rubiks[1].first = 5;
-    rubiks[1].second = lookupOrientation(rubiks[1].second, epsilon);
-    rubiks[4].first = 0;
-    rubiks[4].second = lookupOrientation(rubiks[4].second, epsilon);
-    rubiks[5].first = 4;
-    rubiks[5].second = lookupOrientation(rubiks[5].second, epsilon);
+    auto orientation0 = rubiks[0];
+    auto orientation1 = rubiks[1];
+    auto orientation4 = rubiks[4];
+    auto orientation5 = rubiks[5];
+
+    rubiks[0] = lookupOrientation(orientation4, epsilon);
+    rubiks[1] = lookupOrientation(orientation0, epsilon);
+    rubiks[4] = lookupOrientation(orientation5, epsilon);
+    rubiks[5] = lookupOrientation(orientation1, epsilon);
 }
 
 //PARAMETER: rubiks is the cube to be rotated
 //RETURNS: None
 //SIDE EFFECTS: rotates the corners of the right face clockwise
 void rightClockwise(cube& rubiks) {
-    rubiks[2].first = 6;
-    rubiks[2].second = lookupOrientation(rubiks[2].second, epsilon);
-    rubiks[3].first = 2;
-    rubiks[3].second = lookupOrientation(rubiks[3].second, epsilon);
-    rubiks[6].first = 7;
-    rubiks[6].second = lookupOrientation(rubiks[6].second, epsilon);
-    rubiks[7].first = 3;
-    rubiks[7].second = lookupOrientation(rubiks[7].second, epsilon);
+    auto orientation2 = rubiks[2];
+    auto orientation3 = rubiks[3];
+    auto orientation6 = rubiks[6];
+    auto orientation7 = rubiks[7];
+
+    rubiks[2] = lookupOrientation(orientation3, epsilon);
+    rubiks[3] = lookupOrientation(orientation7, epsilon);
+    rubiks[6] = lookupOrientation(orientation2, epsilon);
+    rubiks[7] = lookupOrientation(orientation6, epsilon);
 }
 
 //PARAMETER: rubiks is the cube to be rotated
 //RETURNS: None
 //SIDE EFFECTS: rotates the corners of the right face counterclockwise
 void rightCounterClockwise(cube& rubiks) {
-    rubiks[2].first = 3;
-    rubiks[2].second = lookupOrientation(rubiks[2].second, theta);
-    rubiks[3].first = 7;
-    rubiks[3].second = lookupOrientation(rubiks[3].second, theta);
-    rubiks[6].first = 2;
-    rubiks[6].second = lookupOrientation(rubiks[6].second, theta);
-    rubiks[7].first = 6;
-    rubiks[7].second = lookupOrientation(rubiks[7].second, theta);
+    auto orientation2 = rubiks[2];
+    auto orientation3 = rubiks[3];
+    auto orientation6 = rubiks[6];
+    auto orientation7 = rubiks[7];
+
+    rubiks[2] = lookupOrientation(orientation6, theta);
+    rubiks[3] = lookupOrientation(orientation2, theta);
+    rubiks[6] = lookupOrientation(orientation7, theta);
+    rubiks[7] = lookupOrientation(orientation3, theta);
 }
 
 //Checks to see if a given cube has been solved.
@@ -236,15 +255,22 @@ void rightCounterClockwise(cube& rubiks) {
 //RETURNS: A boolean that is true if the cube is solved and false otherwise
 //If the corners all have the same orientation, it is a solved cube
 bool isSolved(const cube& rubiks) {
-    auto firstOrientation = rubiks[0].second;
+    auto firstOrientation = rubiks[0];
 
     for (int i = 1; i < 8; i++) {
-        if (rubiks[i].second != firstOrientation) {
+        if (rubiks[i] != firstOrientation) {
             return false;
         }
     }
 
     return true;
+}
+
+//This function generates a default cube
+//PARAMETER: none
+//RETURNS: a cube defaulted to a solved state
+cube Cube() {
+    return {alpha, alpha, alpha, alpha, alpha, alpha, alpha, alpha};
 }
 
 //This function takes a cube and resets all of its values to be a solved cube.
@@ -255,37 +281,66 @@ void reset(cube& rubiks) {
     rubiks = Cube();
 }
 
-//This function makes a new cube matrix that copies another existing cube object.
-//PARAMETER: rubiks is the cube to be copied
-//RETURNS: a new cube that has the same data as the cube passed in the parameter
-cube clone(const cube rubiks) {
-    cube copy = rubiks;
-    return copy;
-}
-
-//This function generates a default cube
-//PARAMETER: none
-//RETURNS: a cube defaulted to a solved state
-cube Cube() {
-    return {{0, alpha},
-            {1, alpha},
-            {2, alpha},
-            {3, alpha},
-            {4, alpha},
-            {5, alpha},
-            {6, alpha},
-            {7, alpha}};
-}
-
-//This function takes the internal data structure and outputs it as a readable net of the cube
-void displayCube(const cube& rubiks) {
-    
+//This function prints out the cube state.
+//PARAMETER: rubiks is the cube to displayed.
+//RETURNS: none
+//SIDE EFFECTS: Prints out the orientations of the cubelets to the command line
+void printCube(const cube rubiks) {
+    std::cout << orientationLiterals[rubiks[0]] << "\t" << orientationLiterals[rubiks[1]] << "\t" << orientationLiterals[rubiks[2]] << "\t" << orientationLiterals[rubiks[3]] << "\t" 
+              << orientationLiterals[rubiks[4]] << "\t" << orientationLiterals[rubiks[5]] << "\t" << orientationLiterals[rubiks[6]] << "\t" << orientationLiterals[rubiks[7]] << "\n";
 }
 
 //Main function that runs and handles the command-line interface of allowing a user to interact with a cube
 int main() {
-    auto test = Cube();
+    //Variables for input and workflow
+    auto playCube = Cube();
+    bool runInteractive = true;
+    std::string action;
 
-    rightClockwise(test);
-    leftCounterClockwise(test);
+    while (runInteractive) {
+        //Evaluate whether the cube is solved, and modify isSolvedState to indicate whether it is in later output
+        auto isSolvedState = isSolved(playCube) ? "" : " not";
+
+        //Display cube, its solved status, and prompt for an action
+        std::cout << "Here is the current cube:\n";
+        printCube(playCube);
+        std::cout << "The cube is" << isSolvedState << " in a solved state.\n";
+        std::cout << "Enter a move in standard Rubik's cube notation, S to reset the cube to a solved state, or X to exit the program:" << std::endl;
+        std::cin >> action;
+
+        //Execute action
+        if (action == "X") {
+            std::cout << "Terminating program.\n";
+            runInteractive = false;
+        } else if (action == "S") {
+            reset(playCube);
+        } else if (action == "U") {
+            upperClockwise(playCube);
+        } else if (action == "U'") {
+            upperCounterClockwise(playCube);
+        } else if (action == "D") {
+            downClockwise(playCube);
+        } else if (action == "D'") {
+            downCounterClockwise(playCube);
+        } else if (action == "F") {
+            frontClockwise(playCube);
+        } else if (action == "F'") {
+            frontCounterClockwise(playCube);
+        } else if (action == "B") {
+            backClockwise(playCube);
+        } else if (action == "B'") {
+            backCounterClockwise(playCube);
+        } else if (action == "L") {
+            leftClockwise(playCube);
+        } else if (action == "L'") {
+            leftCounterClockwise(playCube);
+        } else if (action == "R") {
+            rightClockwise(playCube);
+        } else if (action == "R'") {
+            rightCounterClockwise(playCube);
+        } else {
+            //Give feedback if error
+            std::cout << "Invalid command. Please enter one of the following moves: U, U', D, D', F, F', B, B', L, L', R, R', or X to exit the program.\n";
+        }
+    }
 }
