@@ -1,5 +1,6 @@
-//Written by Andrew Davison for Project A1 for CSC 372: Artificial Intelligence with Dr. Thomas Allen
-//Models a 2x2 Rubiks cube and provides a command line interface for a user to rotate a cube.
+//Written by Andrew Davison for Project A2 for CSC 372: Artificial Intelligence with Dr. Thomas Allen
+//Models a 2x2 Rubiks cube and generates random cubes to be solved using IDA*
+//This function collects time complexity data and nodes expanded during the IDA* algorithm
 //This model is heavily dervied from the work of a blog post at https://k-l-lambda.github.io/2020/12/14/rubik-cube-notation/ that models a 3x3 cube.
 //This model has been adapted by me into a 2x2 cube model.
 
@@ -8,9 +9,24 @@
 #include <string>
 #include <iostream>
 
+/*This is a representation of the orientation of each cubelet that exists in the position of the index. This uniquely identifies the cubelet and 
+uniquely identifies a state, although it is subject to prespective and does represent redundant states. Currentlry, this model is actually entirely ignorant of
+the sticker colors of the cube, and instead is entirely reliant on cubelet orientations.*/
+//Design derived from https://k-l-lambda.github.io/2020/12/14/rubik-cube-notation/
+using cube = std::vector<int>;
+
+/*This is a node struct for generating open trees using IDA*.*/
+struct node {
+    cube state; 
+    node* parent;
+    std::string action;
+    int path_cost;
+};
+
+
 //Enum for enumerating possible cube orientations and a mapping vector for printing out orientations
 enum {alpha, beta, gamma, delta, epsilon, zeta, eta, theta, iota, kappa, lambda, mu, nu, xi, omicron, pi, rho, sigma, tau, upsilon, phi, chi, psi, omega};
-std::vector<std::string> orientationLiterals = {"alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", 
+const std::vector<std::string> orientationLiterals = {"alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", 
                                                 "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega"};
 
 
@@ -18,7 +34,7 @@ std::vector<std::string> orientationLiterals = {"alpha", "beta", "gamma", "delta
 //indicates the new orientation obtained by applying a rotation from the second index, or column, to an existing orientation to the row, or first index.
 //Table dervied from https://k-l-lambda.github.io/2020/12/14/rubik-cube-notation/
 
-int rotation_table[24][24] = {
+const int rotation_table[24][24] = {
     {alpha, beta, gamma, delta, epsilon, zeta, eta, theta, iota, kappa, lambda, mu, nu, xi, omicron, pi, rho, sigma, tau, upsilon, phi, chi, psi, omega},
     {beta, alpha, delta, gamma, theta, chi, omega, epsilon, phi, psi, pi, omicron, sigma, rho, mu, lambda, xi, nu, upsilon, tau, iota, zeta, kappa, eta},
     {gamma, delta, alpha, beta, tau, iota, psi, upsilon, zeta, omega, mu, lambda, rho, sigma, pi, omicron, nu, xi, epsilon, theta, chi, phi, eta, kappa},
@@ -52,12 +68,6 @@ int rotation_table[24][24] = {
 int lookupOrientation(const int startingOrientation, const int rotation) {
     return rotation_table[startingOrientation][rotation];
 }
-
-/*This is a representation of the orientation of each cubelet that exists in the position of the index. This uniquely identifies the cubelet and 
-uniquely identifies a state, although it is subject to prespective and does represent redundant states. Currentlry, this model is actually entirely ignorant of
-the sticker colors of the cube, and instead is entirely reliant on cubelet orientations.*/
-//Design derived from https://k-l-lambda.github.io/2020/12/14/rubik-cube-notation/
-using cube = std::vector<int>;
 
 /*There are 12 different quarter twists. Each of the following functions rotate the faces of a cube. These functions operate by labeling the 2x2 rubiks cube accordingly:
 0 is the upper left front corner
@@ -286,8 +296,31 @@ void reset(cube& rubiks) {
 //RETURNS: none
 //SIDE EFFECTS: Prints out the orientations of the cubelets to the command line
 void printCube(const cube rubiks) {
-    std::cout << orientationLiterals[rubiks[0]] << "\t" << orientationLiterals[rubiks[1]] << "\t" << orientationLiterals[rubiks[2]] << "\t" << orientationLiterals[rubiks[3]] << "\t" 
-              << orientationLiterals[rubiks[4]] << "\t" << orientationLiterals[rubiks[5]] << "\t" << orientationLiterals[rubiks[6]] << "\t" << orientationLiterals[rubiks[7]] << "\n";
+    std::cout << "Position 0: " << orientationLiterals[rubiks[0]] << "\tPosition 1: " << orientationLiterals[rubiks[1]] << "\tPosition 2: " << orientationLiterals[rubiks[2]] << "\tPosition 3: " << orientationLiterals[rubiks[3]] << 
+              "\tPosition 4: "<< orientationLiterals[rubiks[4]] << "\tPosition5: " << orientationLiterals[rubiks[5]] << "\tPosition 6: " << orientationLiterals[rubiks[6]] << "\tPosition 7: " << orientationLiterals[rubiks[7]] << "\n";
+}
+
+//This function randomizes a cube to a given depth of random turns
+//PARAMETER: rubiks is the cube to be randomized
+//PARAMETER: depth is the number of turns to be made
+//RETURNS: none
+void randomize(cube& rubiks, const int depth) {
+
+}
+
+//This function calculates a heuristic according to the orientations of cubelets
+//PARAMETER: rubiks is the state to be evaluated
+//RETURNS: an integer indicating the number of different orientations between the eight cubelets minus one
+//This is similar to a Hamming distance
+int heuristic(const cube& rubiks) {
+
+}
+
+//This function performs IDA* to find a solution
+//PARAMETER: rubiks is the cube to be solved
+//RETURNS: a node that is in a solved state if a solution is found, or null if no solution is found
+node findSolution(const cube& rubiks) {
+
 }
 
 //Main function that runs and handles the command-line interface of allowing a user to interact with a cube
