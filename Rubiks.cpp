@@ -6,8 +6,10 @@
 
 #include <utility>
 #include <vector>
+#include <set>
 #include <string>
 #include <iostream>
+#include <random>
 
 /*This is a representation of the orientation of each cubelet that exists in the position of the index. This uniquely identifies the cubelet and 
 uniquely identifies a state, although it is subject to prespective and does represent redundant states. Currentlry, this model is actually entirely ignorant of
@@ -15,19 +17,15 @@ the sticker colors of the cube, and instead is entirely reliant on cubelet orien
 //Design derived from https://k-l-lambda.github.io/2020/12/14/rubik-cube-notation/
 using cube = std::vector<int>;
 
-/*This is a node struct for generating open trees using IDA*.*/
-struct node {
-    cube state; 
-    node* parent;
-    std::string action;
-    int path_cost;
-};
-
-
 //Enum for enumerating possible cube orientations and a mapping vector for printing out orientations
 enum {alpha, beta, gamma, delta, epsilon, zeta, eta, theta, iota, kappa, lambda, mu, nu, xi, omicron, pi, rho, sigma, tau, upsilon, phi, chi, psi, omega};
 const std::vector<std::string> orientationLiterals = {"alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", 
                                                 "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega"};
+
+
+//Enum for actions
+enum {U, UR, D, DR, F, FR, B, BR, L, LR, R, RR};
+const std::vector<std::string> actionLiterals = {"U", "UR", "D", "DR", "F", "FR", "B", "BR", "L", "LR", "R", "RR"};
 
 
 //This is a lookup table for the orientation of a cube. There are 24 different possible orientations (6 different top sides and 4 different side rotations of each) and the table entry
@@ -295,17 +293,77 @@ void reset(cube& rubiks) {
 //PARAMETER: rubiks is the cube to displayed.
 //RETURNS: none
 //SIDE EFFECTS: Prints out the orientations of the cubelets to the command line
-void printCube(const cube rubiks) {
-    std::cout << "Position 0: " << orientationLiterals[rubiks[0]] << "\tPosition 1: " << orientationLiterals[rubiks[1]] << "\tPosition 2: " << orientationLiterals[rubiks[2]] << "\tPosition 3: " << orientationLiterals[rubiks[3]] << 
-              "\tPosition 4: "<< orientationLiterals[rubiks[4]] << "\tPosition5: " << orientationLiterals[rubiks[5]] << "\tPosition 6: " << orientationLiterals[rubiks[6]] << "\tPosition 7: " << orientationLiterals[rubiks[7]] << "\n";
+std::string printCube(const cube rubiks) {
+    return "Position 0: " + orientationLiterals[rubiks[0]] + "\tPosition 1: " + orientationLiterals[rubiks[1]] + "\tPosition 2: " + orientationLiterals[rubiks[2]] + "\tPosition 3: " + orientationLiterals[rubiks[3]] + 
+              "\tPosition 4: "+ orientationLiterals[rubiks[4]] + "\tPosition5: " + orientationLiterals[rubiks[5]] + "\tPosition 6: " + orientationLiterals[rubiks[6]] + "\tPosition 7: " + orientationLiterals[rubiks[7]] + "\n";
+}
+
+bool isReverse(int action, int oldAction) {
+    return ((action + oldAction) % 4 == 1 && abs(action - oldAction) == 1);
+}
+
+void applyMove(cube& rubiks, int move) {
+    switch (move) {
+        case 0:
+            upperClockwise(rubiks);
+            break;
+        case 1:
+            upperCounterClockwise(rubiks);
+            break;
+        case 2:
+            downClockwise(rubiks);
+            break;
+        case 3:
+            downCounterClockwise(rubiks);
+            break;
+        case 4:
+            frontClockwise(rubiks);
+            break;
+        case 5:
+            frontCounterClockwise(rubiks);
+            break;
+        case 6:
+            backClockwise(rubiks);
+            break;
+        case 7:
+            backCounterClockwise(rubiks);
+            break;
+        case 8:
+            leftClockwise(rubiks);
+            break;
+        case 9:
+            leftCounterClockwise(rubiks);
+            break;
+        case 10:
+            rightClockwise(rubiks);
+            break;
+        case 11:
+            rightCounterClockwise(rubiks);
+            break;
+    }
 }
 
 //This function randomizes a cube to a given depth of random turns
+//The cube can make
 //PARAMETER: rubiks is the cube to be randomized
 //PARAMETER: depth is the number of turns to be made
 //RETURNS: none
 void randomize(cube& rubiks, const int depth) {
+    int previousMove = 100;
+    std::default_random_engine moveGenerator;
+    std::uniform_int_distribution<int> distribution(0, 11);
 
+    for (int i = 0; i < depth; i++) {
+        int move = distribution(moveGenerator);
+
+        if (isReverse(move, previousMove)) {
+            i--;
+            continue;
+        } else {
+            applyMove(rubiks, move);
+            previousMove = move;
+        }
+    }
 }
 
 //This function calculates a heuristic according to the orientations of cubelets
@@ -313,67 +371,110 @@ void randomize(cube& rubiks, const int depth) {
 //RETURNS: an integer indicating the number of different orientations between the eight cubelets minus one
 //This is similar to a Hamming distance
 int heuristic(const cube& rubiks) {
+    std::set<int> uniqueOrientations(rubiks.begin(), rubiks.end());
 
+    return uniqueOrientations.size() - 1;
 }
+
+/*This is a node struct for generating open trees using IDA*.*/
+struct node {
+    cube state; 
+    node* parent;
+    int action;
+    int heuristic;
+    int path_cost;
+    bool isSolved;
+};
+
+std::vector<node*> generateChildren(node* scrambledCube) {
+    std::vector<node*> children;
+
+    for (int action = 0; action < 12; action++) {
+        if (!isReverse(action, scrambledCube->action)) {
+            cube newState = scrambledCube->state;
+            applyMove(newState, action);
+            auto child = new node{newState, scrambledCube, action, heuristic(newState), scrambledCube->path_cost + 1, isSolved(newState)};
+            children.push_back(child);
+        }
+    }
+
+    return children;
+}
+
+//Helper function for IDA*
+node* limitedSearch(node* scrambledCube, int valueLimit, int* exploredNodes) {
+    if (scrambledCube->isSolved) {
+        return scrambledCube;
+    }
+    
+    std::vector<node*> children = generateChildren(scrambledCube);
+
+    for (auto child : children) {
+        *exploredNodes = *exploredNodes + 1;
+        if (child->heuristic + child->path_cost <= valueLimit) {
+            node* solution = limitedSearch(child, valueLimit, exploredNodes);
+            if (solution && solution->isSolved) {
+                return solution;
+            }
+        }
+    }
+
+    return nullptr;
+}
+
+struct solveResult {
+    node startState;
+    int exploredNodes;
+    int timeCost;
+    node* solution = nullptr;
+};
+
 
 //This function performs IDA* to find a solution
 //PARAMETER: rubiks is the cube to be solved
 //RETURNS: a node that is in a solved state if a solution is found, or null if no solution is found
-node findSolution(const cube& rubiks) {
+solveResult solveIDA(node startNode) {
+    node* solution = nullptr;
+    int valueLimit = 0;
+    int exploredNodes = 0;
+    int timeCost = clock();
 
+    while (!solution) {
+        valueLimit++;
+        solution = limitedSearch(&startNode, valueLimit, &exploredNodes);
+    }
+
+    timeCost = clock() - timeCost;
+
+    return solveResult{startNode, exploredNodes, timeCost, solution};
+}
+
+std::string printSolutionMoves(solveResult* solution) {
+    std::string output = "";
+    node* itr = solution->solution;
+    int numActions;
+
+    while (itr->parent) {
+        output = output + actionLiterals[itr->action] + " ";
+        itr = itr->parent;
+        numActions++;
+    }
+
+    return output + "for " + std::to_string(numActions) + " total actions.\n";
+}
+
+std::string printSolutionInfo(solveResult* solution) {
+    return "The cube " + printCube(solution->startState.state) + "was solved by exploring " + std::to_string(solution->exploredNodes) + " nodes and it took " + std::to_string(solution->timeCost) + " CPU clocks. \n";
 }
 
 //Main function that runs and handles the command-line interface of allowing a user to interact with a cube
 int main() {
     //Variables for input and workflow
     auto playCube = Cube();
-    bool runInteractive = true;
-    std::string action;
 
-    while (runInteractive) {
-        //Evaluate whether the cube is solved, and modify isSolvedState to indicate whether it is in later output
-        auto isSolvedState = isSolved(playCube) ? "" : " not";
-
-        //Display cube, its solved status, and prompt for an action
-        std::cout << "Here is the current cube:\n";
-        printCube(playCube);
-        std::cout << "The cube is" << isSolvedState << " in a solved state.\n";
-        std::cout << "Enter a move in standard Rubik's cube notation, S to reset the cube to a solved state, or X to exit the program:" << std::endl;
-        std::cin >> action;
-
-        //Execute action
-        if (action == "X") {
-            std::cout << "Terminating program.\n";
-            runInteractive = false;
-        } else if (action == "S") {
-            reset(playCube);
-        } else if (action == "U") {
-            upperClockwise(playCube);
-        } else if (action == "U'") {
-            upperCounterClockwise(playCube);
-        } else if (action == "D") {
-            downClockwise(playCube);
-        } else if (action == "D'") {
-            downCounterClockwise(playCube);
-        } else if (action == "F") {
-            frontClockwise(playCube);
-        } else if (action == "F'") {
-            frontCounterClockwise(playCube);
-        } else if (action == "B") {
-            backClockwise(playCube);
-        } else if (action == "B'") {
-            backCounterClockwise(playCube);
-        } else if (action == "L") {
-            leftClockwise(playCube);
-        } else if (action == "L'") {
-            leftCounterClockwise(playCube);
-        } else if (action == "R") {
-            rightClockwise(playCube);
-        } else if (action == "R'") {
-            rightCounterClockwise(playCube);
-        } else {
-            //Give feedback if error
-            std::cout << "Invalid command. Please enter one of the following moves: U, U', D, D', F, F', B, B', L, L', R, R', or X to exit the program.\n";
-        }
-    }
+    randomize(playCube, 20);
+    node startNode = {playCube, nullptr, -1, heuristic(playCube), 0, false};
+    auto solution = solveIDA(startNode);
+    std::cout << printSolutionInfo(&solution);
+    std::cout << "Here is the sequence of moves found: " + printSolutionMoves(&solution);
 }
