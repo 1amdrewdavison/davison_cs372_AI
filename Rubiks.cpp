@@ -10,6 +10,7 @@
 #include <string>
 #include <iostream>
 #include <random>
+#include <chrono>
 
 /*This is a representation of the orientation of each cubelet that exists in the position of the index. This uniquely identifies the cubelet and 
 uniquely identifies a state, although it is subject to prespective and does represent redundant states. Currentlry, this model is actually entirely ignorant of
@@ -425,7 +426,7 @@ node* limitedSearch(node* scrambledCube, int valueLimit, int* exploredNodes) {
 struct solveResult {
     node startState;
     int exploredNodes;
-    int timeCost;
+    std::chrono::nanoseconds timeCost;
     node* solution = nullptr;
 };
 
@@ -437,14 +438,16 @@ solveResult solveIDA(node startNode) {
     node* solution = nullptr;
     int valueLimit = 0;
     int exploredNodes = 0;
-    int timeCost = clock();
+    auto startTime = std::chrono::steady_clock::now();
 
     while (!solution) {
         valueLimit++;
         solution = limitedSearch(&startNode, valueLimit, &exploredNodes);
     }
 
-    timeCost = clock() - timeCost;
+    auto endTime = std::chrono::steady_clock::now();
+
+    auto timeCost = endTime - startTime;
 
     return solveResult{startNode, exploredNodes, timeCost, solution};
 }
@@ -464,7 +467,8 @@ std::string printSolutionMoves(solveResult* solution) {
 }
 
 std::string printSolutionInfo(solveResult* solution) {
-    return "The cube " + printCube(solution->startState.state) + "was solved by exploring " + std::to_string(solution->exploredNodes) + " nodes and it took " + std::to_string(solution->timeCost) + " CPU clocks. \n";
+    return "The cube " + printCube(solution->startState.state) + "was solved by exploring " + std::to_string(solution->exploredNodes) + 
+           " nodes and it took " + std::to_string(std::chrono::duration_cast<std::chrono::microseconds>(solution->timeCost).count()) + " microseconds.\n";
 }
 
 //Main function that runs and handles the command-line interface of allowing a user to interact with a cube
@@ -472,7 +476,7 @@ int main() {
     //Variables for input and workflow
     auto playCube = Cube();
 
-    randomize(playCube, 20);
+    randomize(playCube, 17);
     node startNode = {playCube, nullptr, -1, heuristic(playCube), 0, false};
     auto solution = solveIDA(startNode);
     std::cout << printSolutionInfo(&solution);
