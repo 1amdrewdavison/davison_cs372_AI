@@ -11,6 +11,7 @@
 #include <iostream>
 #include <random>
 #include <chrono>
+#include <fstream>
 
 /*This is a representation of the orientation of each cubelet that exists in the position of the index. This uniquely identifies the cubelet and 
 uniquely identifies a state, although it is subject to prespective and does represent redundant states. Currentlry, this model is actually entirely ignorant of
@@ -25,8 +26,7 @@ const std::vector<std::string> orientationLiterals = {"alpha", "beta", "gamma", 
 
 
 //Enum for actions
-enum {U, UR, D, DR, F, FR, B, BR, L, LR, R, RR};
-const std::vector<std::string> actionLiterals = {"U", "UR", "D", "DR", "F", "FR", "B", "BR", "L", "LR", "R", "RR"};
+const std::vector<std::string> actionLiterals = {"U", "U'", "D", "D'", "F", "F'", "B", "B'", "L", "L'", "R", "R'"};
 
 
 //This is a lookup table for the orientation of a cube. There are 24 different possible orientations (6 different top sides and 4 different side rotations of each) and the table entry
@@ -295,8 +295,8 @@ void reset(cube& rubiks) {
 //RETURNS: none
 //SIDE EFFECTS: Prints out the orientations of the cubelets to the command line
 std::string printCube(const cube rubiks) {
-    return "Position 0: " + orientationLiterals[rubiks[0]] + "\tPosition 1: " + orientationLiterals[rubiks[1]] + "\tPosition 2: " + orientationLiterals[rubiks[2]] + "\tPosition 3: " + orientationLiterals[rubiks[3]] + 
-              "\tPosition 4: "+ orientationLiterals[rubiks[4]] + "\tPosition5: " + orientationLiterals[rubiks[5]] + "\tPosition 6: " + orientationLiterals[rubiks[6]] + "\tPosition 7: " + orientationLiterals[rubiks[7]] + "\n";
+    return "{" + orientationLiterals[rubiks[0]] + ", " + orientationLiterals[rubiks[1]] + ", " + orientationLiterals[rubiks[2]] + ", " + orientationLiterals[rubiks[3]] + ", " + 
+            orientationLiterals[rubiks[4]] + ", " + orientationLiterals[rubiks[5]] + ", " + orientationLiterals[rubiks[6]] + ", " + orientationLiterals[rubiks[7]] + "}";
 }
 
 bool isReverse(int action, int oldAction) {
@@ -349,9 +349,9 @@ void applyMove(cube& rubiks, int move) {
 //PARAMETER: rubiks is the cube to be randomized
 //PARAMETER: depth is the number of turns to be made
 //RETURNS: none
-void randomize(cube& rubiks, const int depth) {
+std::string randomize(cube& rubiks, const int depth, std::mt19937 moveGenerator) {
     int previousMove = 100;
-    std::default_random_engine moveGenerator;
+    std::string moveOrder = "";
     std::uniform_int_distribution<int> distribution(0, 11);
 
     for (int i = 0; i < depth; i++) {
@@ -363,8 +363,15 @@ void randomize(cube& rubiks, const int depth) {
         } else {
             applyMove(rubiks, move);
             previousMove = move;
-        }
+            moveOrder = moveOrder + actionLiterals[move] + " ";
+        } 
     }
+
+    if (isSolved(rubiks)) {
+        return randomize(rubiks, depth, moveGenerator);
+    }
+
+    return moveOrder;
 }
 
 //This function calculates a heuristic according to the orientations of cubelets
@@ -374,7 +381,7 @@ void randomize(cube& rubiks, const int depth) {
 int heuristic(const cube& rubiks) {
     std::set<int> uniqueOrientations(rubiks.begin(), rubiks.end());
 
-    return uniqueOrientations.size() - 1;
+    return uniqueOrientations.size() / 2;
 }
 
 /*This is a node struct for generating open trees using IDA*.*/
@@ -436,13 +443,13 @@ struct solveResult {
 //RETURNS: a node that is in a solved state if a solution is found, or null if no solution is found
 solveResult solveIDA(node startNode) {
     node* solution = nullptr;
-    int valueLimit = 0;
+    int valueLimit = startNode.heuristic;
     int exploredNodes = 0;
     auto startTime = std::chrono::steady_clock::now();
 
     while (!solution) {
-        valueLimit++;
         solution = limitedSearch(&startNode, valueLimit, &exploredNodes);
+        valueLimit++;
     }
 
     auto endTime = std::chrono::steady_clock::now();
@@ -455,7 +462,7 @@ solveResult solveIDA(node startNode) {
 std::string printSolutionMoves(solveResult* solution) {
     std::string output = "";
     node* itr = solution->solution;
-    int numActions;
+    int numActions = 0;
 
     while (itr->parent) {
         output = output + actionLiterals[itr->action] + " ";
@@ -467,18 +474,42 @@ std::string printSolutionMoves(solveResult* solution) {
 }
 
 std::string printSolutionInfo(solveResult* solution) {
-    return "The cube " + printCube(solution->startState.state) + "was solved by exploring " + std::to_string(solution->exploredNodes) + 
-           " nodes and it took " + std::to_string(std::chrono::duration_cast<std::chrono::microseconds>(solution->timeCost).count()) + " microseconds.\n";
+    return printCube(solution->startState.state) + "\n" + std::to_string(solution->exploredNodes) + "\n" + std::to_string(std::chrono::duration_cast<std::chrono::microseconds>(solution->timeCost).count()) + "\n";
 }
 
 //Main function that runs and handles the command-line interface of allowing a user to interact with a cube
 int main() {
-    //Variables for input and workflow
-    auto playCube = Cube();
+    //Create output file
+    std::ofstream idastar_output;
+    idastar_output.open("idastar_output.txt");
 
-    randomize(playCube, 17);
-    node startNode = {playCube, nullptr, -1, heuristic(playCube), 0, false};
-    auto solution = solveIDA(startNode);
-    std::cout << printSolutionInfo(&solution);
-    std::cout << "Here is the sequence of moves found: " + printSolutionMoves(&solution);
+    //Safety check
+    if (!idastar_output.is_open()) {
+        perror("Failed to open the output file.");
+        return EXIT_FAILURE;
+    }
+
+    int depth = 1;
+    std::chrono::nanoseconds longestCase = std::chrono::nanoseconds(0);
+
+    while(longestCase < std::chrono::seconds(300) && depth < 15) {
+        for (int i = 0; i < 10; i++) {
+            std::mt19937 moveGenerator;
+            auto playCube = Cube();
+            moveGenerator.seed(i);
+
+            std::string randomSequence = randomize(playCube, depth, moveGenerator);
+            node startNode = {playCube, nullptr, -1, heuristic(playCube), 0, false};
+            idastar_output << std::to_string(heuristic(playCube)) + "\n";
+            auto solution = solveIDA(startNode);
+            idastar_output << randomSequence + "\n";
+            idastar_output << printSolutionMoves(&solution);
+            idastar_output << printSolutionInfo(&solution) + "\n";
+            if (solution.timeCost > longestCase) {
+                longestCase = solution.timeCost;
+            }
+        }
+
+        depth++;
+    }
 }
