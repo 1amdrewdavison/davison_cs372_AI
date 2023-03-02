@@ -489,11 +489,11 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    int depth = 1;
+    int depth = 14;
     std::chrono::nanoseconds longestCase = std::chrono::nanoseconds(0);
 
     while(longestCase < std::chrono::seconds(300) && depth < 15) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             std::mt19937 moveGenerator;
             auto playCube = Cube();
             moveGenerator.seed(i);
