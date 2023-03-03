@@ -12,6 +12,8 @@
 #include <random>
 #include <chrono>
 #include <fstream>
+#include <thread>
+#include <future>
 
 /*This is a representation of the orientation of each cubelet that exists in the position of the index. This uniquely identifies the cubelet and 
 uniquely identifies a state, although it is subject to prespective and does represent redundant states. Currentlry, this model is actually entirely ignorant of
@@ -471,7 +473,7 @@ std::string printSolutionMoves(solveResult* solution) {
     node* itr = solution->solution;
     int numActions = 0;
 
-    while (itr->parent) {
+    for (int i = 0; i < solution->solution->path_cost; i++) {
         output = output + actionLiterals[itr->action] + " ";
         itr = itr->parent;
         numActions++;
@@ -498,18 +500,23 @@ int main() {
 
     int depth = 1;
     std::chrono::nanoseconds longestCase = std::chrono::nanoseconds(0);
-
+    
     while(depth < 15) {
-        for (int i = 0; i < 10 && longestCase < std::chrono::seconds(6000); i++) {
+        std::vector<std::future<solveResult>> threads(10);
+
+        for (int i = 0; i < 10 && longestCase < std::chrono::seconds(300); i++) {
             std::mt19937 moveGenerator;
             auto playCube = Cube();
             moveGenerator.seed(i);
 
             std::string randomSequence = randomize(playCube, depth, moveGenerator);
             node startNode = {playCube, nullptr, -1, heuristic(playCube), 0, false};
-            idastar_output << std::to_string(heuristic(playCube)) + "\n";
-            auto solution = solveIDA(startNode);
-            idastar_output << randomSequence + "\n";
+            threads[i] = std::async(solveIDA, startNode);
+        }
+
+        for (int i = 0; i < 10; i++) {
+            auto solution = threads[i].get();
+            idastar_output << std::to_string(depth) + " is the randomized depth.\n";
             idastar_output << printSolutionMoves(&solution);
             idastar_output << printSolutionInfo(&solution) + "\n";
             if (solution.timeCost > longestCase) {

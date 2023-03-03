@@ -1,535 +1,600 @@
-1
-B 
+1 is the randomized depth.
 B' for 1 total actions.
 {alpha, kappa, kappa, alpha, alpha, kappa, kappa, alpha}
 1
-345
+106
 
-1
-F' 
+1 is the randomized depth.
 B for 1 total actions.
 {kappa, alpha, alpha, kappa, kappa, alpha, alpha, kappa}
 1
-205
+130
 
-1
-F' 
+1 is the randomized depth.
 B for 1 total actions.
 {kappa, alpha, alpha, kappa, kappa, alpha, alpha, kappa}
 1
-253
+101
 
-1
-B 
+1 is the randomized depth.
 B' for 1 total actions.
 {alpha, kappa, kappa, alpha, alpha, kappa, kappa, alpha}
 1
-166
+99
 
-1
-R' 
+1 is the randomized depth.
 R for 1 total actions.
 {alpha, alpha, theta, theta, alpha, alpha, theta, theta}
 1
-202
+125
 
-1
-D 
+1 is the randomized depth.
 D' for 1 total actions.
 {alpha, alpha, alpha, alpha, iota, iota, iota, iota}
 1
-179
+153
 
-1
-R 
+1 is the randomized depth.
 R' for 1 total actions.
 {alpha, alpha, epsilon, epsilon, alpha, alpha, epsilon, epsilon}
 1
-187
+175
 
-1
-U 
+1 is the randomized depth.
 D' for 1 total actions.
 {zeta, zeta, zeta, zeta, alpha, alpha, alpha, alpha}
 1
-169
+176
 
-1
-R 
+1 is the randomized depth.
 R' for 1 total actions.
 {alpha, alpha, epsilon, epsilon, alpha, alpha, epsilon, epsilon}
 1
-181
+200
 
-1
-U 
+1 is the randomized depth.
 D' for 1 total actions.
 {zeta, zeta, zeta, zeta, alpha, alpha, alpha, alpha}
 1
-170
+223
 
-2
-B L 
+2 is the randomized depth.
 D R' for 2 total actions.
 {sigma, sigma, kappa, alpha, theta, theta, kappa, alpha}
 2
-317
+93
 
-2
-F' R' 
+2 is the randomized depth.
 B R for 2 total actions.
 {kappa, alpha, theta, theta, kappa, alpha, sigma, sigma}
 2
-279
+110
 
-2
-F' D 
+2 is the randomized depth.
 B D' for 2 total actions.
 {kappa, alpha, alpha, kappa, iota, iota, mu, mu}
 2
-289
+226
 
-2
-B U 
+2 is the randomized depth.
 R D' for 2 total actions.
 {zeta, zeta, omicron, omicron, alpha, kappa, kappa, alpha}
 2
-334
+226
 
-2
-R' B 
+2 is the randomized depth.
 R B' for 2 total actions.
 {alpha, omicron, omicron, theta, alpha, kappa, kappa, theta}
 2
-350
+254
 
-1
-D U 
+2 is the randomized depth.
 D' D' for 2 total actions.
 {zeta, zeta, zeta, zeta, iota, iota, iota, iota}
 14
-435
+403
 
-2
-R D' 
+2 is the randomized depth.
 R' D for 2 total actions.
 {alpha, alpha, epsilon, epsilon, xi, zeta, zeta, xi}
 2
-298
+201
 
-1
-U D 
+2 is the randomized depth.
 D' D' for 2 total actions.
 {zeta, zeta, zeta, zeta, iota, iota, iota, iota}
 14
-462
+379
 
-2
-R U 
+2 is the randomized depth.
 B D' for 2 total actions.
 {xi, zeta, zeta, xi, alpha, alpha, epsilon, epsilon}
 2
-286
+214
 
-2
-U F 
+2 is the randomized depth.
 R B' for 2 total actions.
 {eta, zeta, zeta, rho, eta, alpha, alpha, rho}
 2
-282
+206
 
-2
-B L R 
+3 is the randomized depth.
 D R' R' for 3 total actions.
 {sigma, sigma, epsilon, epsilon, theta, theta, xi, xi}
 61
-1051
+403
 
-1
-F' R' L 
+3 is the randomized depth.
 D' for 1 total actions.
 {theta, theta, theta, theta, sigma, sigma, sigma, sigma}
 1
-208
+77
 
-2
-F' D U 
+3 is the randomized depth.
 R' D' D' for 3 total actions.
 {omicron, omicron, zeta, zeta, iota, iota, mu, mu}
 85
-1407
+415
 
-2
-B U L 
+3 is the randomized depth.
 R D' L' for 3 total actions.
 {omicron, sigma, omicron, omicron, omicron, theta, kappa, alpha}
 49
-947
+444
 
-3
-R' B D 
+3 is the randomized depth.
 R B' D' for 3 total actions.
 {alpha, omicron, omicron, theta, mu, mu, sigma, iota}
 51
-1005
+526
 
-2
-D U R 
+3 is the randomized depth.
 D' D' R' for 3 total actions.
 {zeta, zeta, lambda, mu, iota, iota, lambda, mu}
 37
-895
+513
 
-2
-R D' L' 
+3 is the randomized depth.
 R' D L for 3 total actions.
 {omega, epsilon, epsilon, epsilon, lambda, epsilon, zeta, xi}
 49
-974
+448
 
-2
-U D L' 
+3 is the randomized depth.
 B' B' R for 3 total actions.
 {mu, lambda, zeta, zeta, mu, lambda, iota, iota}
 37
-843
+527
 
-2
-R U R' 
+3 is the randomized depth.
 B D' R for 3 total actions.
 {xi, zeta, alpha, omicron, alpha, alpha, alpha, kappa}
 15
-597
+487
 
-2
-U F B 
+3 is the randomized depth.
 R B' B' for 3 total actions.
 {eta, xi, kappa, rho, eta, xi, kappa, rho}
 85
-1342
+597
 
-4
-B L R B' 
+4 is the randomized depth.
 D R' R' B for 4 total actions.
 {sigma, pi, iota, epsilon, theta, zeta, lambda, xi}
 28
-763
+190
 
-2
-F' R' L R' 
+4 is the randomized depth.
 D' R for 2 total actions.
 {theta, theta, omega, beta, sigma, sigma, omega, beta}
 2
-263
+167
 
-1
-F' D U R' 
+4 is the randomized depth.
 R' D' D' R for 4 total actions.
 {omicron, omicron, iota, omicron, iota, iota, iota, omicron}
 429
-5231
+1742
 
-3
-B U L R 
+4 is the randomized depth.
 R D' L' R' for 4 total actions.
 {omicron, sigma, zeta, epsilon, omicron, theta, zeta, xi}
 94
-1563
+524
 
-3
-R' B D R' 
+4 is the randomized depth.
 R B' D' R for 4 total actions.
 {alpha, omicron, omega, phi, mu, mu, pi, beta}
 144
-2638
+939
 
-1
-D U R L' 
+4 is the randomized depth.
 B' B' for 2 total actions.
 {mu, lambda, lambda, mu, mu, lambda, lambda, mu}
 14
-455
+498
 
-2
-R D' L' U 
+4 is the randomized depth.
 R' D L U' for 4 total actions.
 {xi, pi, xi, xi, lambda, epsilon, zeta, xi}
 707
-8653
+1935
 
-3
-U D L' D' 
+4 is the randomized depth.
 B' B' R D for 4 total actions.
 {mu, lambda, zeta, zeta, alpha, kappa, omega, alpha}
 138
-2001
+833
 
-3
-R U R' D 
+4 is the randomized depth.
 B D' R D' for 4 total actions.
 {xi, zeta, alpha, omicron, iota, iota, mu, iota}
 38
-980
+680
 
-2
-U F B F' 
+4 is the randomized depth.
 D' B' for 2 total actions.
 {zeta, xi, kappa, zeta, alpha, xi, kappa, alpha}
 2
-279
+394
 
-4
-B L R B' R 
+5 is the randomized depth.
 D R' R' B R' for 5 total actions.
 {sigma, pi, beta, omega, theta, zeta, mu, phi}
 1547
-26257
+5468
 
-3
-F' R' L R' U 
+5 is the randomized depth.
 D' R U' for 3 total actions.
 {chi, rho, rho, pi, sigma, sigma, omega, beta}
 37
-746
+232
 
-2
-F' D U R' B 
+5 is the randomized depth.
 R' D' D' R B' for 5 total actions.
 {omicron, sigma, sigma, omicron, iota, upsilon, sigma, omicron}
 1442
-19271
+4198
 
-4
-B U L R D' 
+5 is the randomized depth.
 R D' L' R' D for 5 total actions.
 {omicron, sigma, zeta, epsilon, upsilon, psi, rho, gamma}
 1221
-17210
+4137
 
-3
-R' B D R' L 
+5 is the randomized depth.
 R B' D' L' R for 5 total actions.
 {phi, iota, omega, phi, theta, iota, pi, beta}
 1214
-16448
+4216
 
-2
-D U R L' D 
+5 is the randomized depth.
 B' B' D' for 3 total actions.
 {mu, lambda, lambda, mu, eta, eta, psi, psi}
 37
-770
+572
 
-3
-R D' L' U U 
+5 is the randomized depth.
 R' D R D' D' for 5 total actions.
 {upsilon, upsilon, eta, upsilon, lambda, epsilon, zeta, xi}
 959
-13181
+3256
 
-3
-U D L' D' F' 
+5 is the randomized depth.
 B' B' R D F for 5 total actions.
 {xi, lambda, zeta, kappa, tau, kappa, omega, kappa}
 2424
-46248
+7031
 
-3
-R U R' D R 
+5 is the randomized depth.
 B D' R D' R' for 5 total actions.
 {xi, zeta, zeta, mu, iota, iota, epsilon, chi}
 2981
-39750
+7100
 
-1
-U F B F' F' 
+5 is the randomized depth.
 R for 1 total actions.
 {xi, xi, kappa, kappa, xi, xi, kappa, kappa}
 1
-189
+227
 
-3
-B L R B' R B 
+6 is the randomized depth.
 D R' R' B R' B' for 6 total actions.
 {sigma, psi, tau, omega, theta, theta, xi, phi}
 21830
-311790
+51255
 
-2
-F' R' L R' U D' 
+6 is the randomized depth.
 B D L R' for 4 total actions.
 {chi, rho, rho, pi, chi, theta, theta, pi}
 822
-9545
+2090
 
-3
-F' D U R' B R' 
+6 is the randomized depth.
 R' D' D' R B' R for 6 total actions.
 {omicron, sigma, omega, omega, iota, upsilon, phi, phi}
 6283
-76459
+16584
 
-4
-B U L R D' U' 
+6 is the randomized depth.
 D R' B B D' D' for 6 total actions.
 {tau, alpha, nu, kappa, upsilon, psi, rho, gamma}
 18262
-239027
+41812
 
-3
-R' B D R' L B' 
+6 is the randomized depth.
 R B' D L' R B' for 6 total actions.
 {phi, nu, nu, phi, theta, upsilon, gamma, beta}
 10374
-124138
+25990
 
-3
-D U R L' D F 
+6 is the randomized depth.
 B' B' D' F' for 4 total actions.
 {delta, lambda, lambda, epsilon, beta, eta, psi, epsilon}
 194
-2652
+812
 
-3
-R D' L' U U F 
+6 is the randomized depth.
 R D F L' R' B' for 6 total actions.
 {tau, upsilon, eta, omicron, zeta, epsilon, zeta, omicron}
 9643
-135714
+22337
 
-3
-U D L' D' F' R' 
+6 is the randomized depth.
 B' B' R D F R for 6 total actions.
 {xi, lambda, xi, omicron, tau, kappa, sigma, sigma}
 12306
-160231
+28116
 
-2
-R U R' D R F 
+6 is the randomized depth.
 B D' R D' R' F' for 6 total actions.
 {nu, zeta, zeta, zeta, xi, iota, epsilon, epsilon}
 52812
-651845
+110048
 
-2
-U F B F' F' U 
+6 is the randomized depth.
 B' D' for 2 total actions.
 {omicron, upsilon, upsilon, omicron, xi, xi, kappa, kappa}
 2
-349
+203
 
-3
-B L R B' R B R 
+7 is the randomized depth.
 D R' R' B R' B' R' for 7 total actions.
 {sigma, psi, sigma, omicron, theta, theta, delta, omega}
 99427
-1323179
+239615
 
-2
-F' R' L R' U D' R' 
+7 is the randomized depth.
 B D L for 3 total actions.
 {chi, rho, beta, psi, chi, theta, chi, chi}
 49
-927
+605
 
-3
-F' D U R' B R' F' 
+7 is the randomized depth.
 R' D' D' R B' R F for 7 total actions.
 {beta, sigma, omega, nu, upsilon, upsilon, phi, sigma}
 296551
-3836219
+663443
 
-3
-B U L R D' U' B 
+7 is the randomized depth.
 D R' B B D' D' B' for 7 total actions.
 {tau, iota, zeta, kappa, upsilon, kappa, gamma, gamma}
 254871
-3417726
+578877
 
-3
-R' B D R' L B' L 
+7 is the randomized depth.
 R' D' B' L R' D R' for 7 total actions.
 {eta, delta, nu, phi, lambda, beta, gamma, beta}
 130667
-1709762
+305467
 
-3
-D U R L' D F R' 
+7 is the randomized depth.
 B' B' D' F' R for 5 total actions.
 {delta, lambda, nu, zeta, beta, eta, alpha, alpha}
 1530
-21020
+3877
 
-3
-R D' L' U U F U' 
+7 is the randomized depth.
 R D F L' R' B' U for 7 total actions.
 {xi, pi, kappa, rho, zeta, epsilon, zeta, omicron}
 206609
-2963563
+492273
 
-3
-U D L' D' F' R' L 
+7 is the randomized depth.
 B' B' R D F L' R for 7 total actions.
 {zeta, sigma, xi, omicron, kappa, gamma, sigma, sigma}
 55285
-753902
+153434
 
-3
-R U R' D R F B 
+7 is the randomized depth.
 B D' R D' R' F' B' for 7 total actions.
 {nu, xi, mu, zeta, xi, xi, sigma, epsilon}
 87704
-1215841
+229493
 
-1
-U F B F' F' U D' 
+7 is the randomized depth.
 B' for 1 total actions.
 {omicron, upsilon, upsilon, omicron, omicron, upsilon, upsilon, omicron}
 1
-196
+153
 
-4
-B L R B' R B R F' 
+8 is the randomized depth.
 B' R B' L' B' L F' B' for 8 total actions.
 {upsilon, psi, sigma, beta, phi, theta, delta, omicron}
 1428526
-21601423
+3138493
 
-2
-F' R' L R' U D' R' U' 
+8 is the randomized depth.
 B D L U for 4 total actions.
 {theta, phi, omicron, beta, chi, theta, chi, chi}
 375
-6237
+1551
 
-3
-F' D U R' B R' F' F' 
+8 is the randomized depth.
 R' B' B' R B' L B' B' for 8 total actions.
 {iota, sigma, omega, phi, psi, upsilon, phi, pi}
 1425217
-24380640
+3163041
 
-4
-B U L R D' U' B B 
+8 is the randomized depth.
 D' B' B' D D R for 6 total actions.
 {tau, xi, omega, kappa, upsilon, sigma, delta, gamma}
 8466
-135327
+17455
 
-3
-R' B D R' L B' L B' 
+8 is the randomized depth.
 R' D' B' L R' D R' B for 8 total actions.
 {eta, omega, kappa, phi, lambda, psi, phi, beta}
 1633164
-30427050
+3630436
 
-3
-D U R L' D F R' R' 
+8 is the randomized depth.
 B' B' D' F' R' R' for 6 total actions.
 {delta, lambda, theta, eta, beta, eta, theta, omicron}
 4006
-80571
+9090
 
-4
-R D' L' U U F U' R' 
+8 is the randomized depth.
 R D F L' R' B' U R for 8 total actions.
+{xi, pi, omicron, sigma, zeta, epsilon, phi, psi}
+400078
+949770
+
+8 is the randomized depth.
+D' D' B U L B for 6 total actions.
+{upsilon, sigma, xi, phi, xi, gamma, sigma, delta}
+14771
+33981
+
+8 is the randomized depth.
+B' D' F U' B' D D R for 8 total actions.
+{omega, psi, mu, zeta, omega, omega, sigma, epsilon}
+1070860
+2423781
+
+8 is the randomized depth.
+R D for 2 total actions.
+{xi, xi, kappa, kappa, omicron, upsilon, upsilon, omicron}
+2
+201
+
+9 is the randomized depth.
+B' R B' L' B' L F' for 7 total actions.
+{upsilon, pi, beta, beta, phi, kappa, iota, omicron}
+176589
+458145
+
+9 is the randomized depth.
+B R U L R' for 5 total actions.
+{theta, phi, omicron, beta, sigma, beta, beta, beta}
+1325
+4001
+
+9 is the randomized depth.
+R' D' D' R B' R F' for 7 total actions.
+{nu, sigma, omega, theta, sigma, upsilon, phi, gamma}
+167914
+399684
+
+9 is the randomized depth.
+D' B' B' D D for 5 total actions.
+{tau, xi, xi, tau, upsilon, sigma, sigma, upsilon}
+1689
+5297
+
+9 is the randomized depth.
+R' D' B' L R' D R' B D' for 9 total actions.
+{eta, omega, kappa, phi, omicron, delta, phi, eta}
+26684497
+56835232
+
+9 is the randomized depth.
+B' B' D' F' D' D' B for 7 total actions.
+{alpha, lambda, theta, upsilon, eta, eta, theta, psi}
+233990
+507626
+
+9 is the randomized depth.
+R D F L' R' B' U R B for 9 total actions.
+{xi, lambda, upsilon, sigma, zeta, sigma, theta, psi}
+16115612
+35103236
+
+9 is the randomized depth.
+D' D' B U L B R for 7 total actions.
+{upsilon, sigma, omega, kappa, xi, gamma, tau, lambda}
+149768
+369925
+
+9 is the randomized depth.
+B' D' F U' B' D D R D' for 9 total actions.
+{omega, psi, mu, zeta, lambda, tau, nu, lambda}
+23132347
+49076321
+
+9 is the randomized depth.
+R for 1 total actions.
+{xi, xi, kappa, kappa, xi, xi, kappa, kappa}
+1
+341
+
+10 is the randomized depth.
+R' B L' F' L' B L R' for 8 total actions.
+{upsilon, alpha, upsilon, beta, phi, nu, omega, omicron}
+455882
+1138560
+
+10 is the randomized depth.
+B D R D for 4 total actions.
+{delta, kappa, phi, sigma, sigma, beta, beta, beta}
+274
+1163
+
+10 is the randomized depth.
+R' D' D' R B' R F' D for 8 total actions.
+{nu, sigma, omega, theta, iota, theta, nu, beta}
+1825831
+4532237
+
+10 is the randomized depth.
+R' B' B' R R B' for 6 total actions.
+{lambda, xi, xi, pi, lambda, sigma, sigma, pi}
+6954
+15269
+
+10 is the randomized depth.
+D' R' B' U' F B R' R' D' for 9 total actions.
+{lambda, mu, delta, pi, omicron, delta, phi, eta}
+28323993
+61478591
+
+10 is the randomized depth.
+R' R' B D R' R' D' B' for 8 total actions.
+{eta, sigma, xi, iota, eta, eta, theta, psi}
+1815423
+4390382
+
+10 is the randomized depth.
+R D F L' R' B' U R B U for 10 total actions.
+{eta, xi, tau, epsilon, zeta, sigma, theta, psi}
+116844343
+247842794
+
+10 is the randomized depth.
+D' D' B U L B R D for 8 total actions.
+{upsilon, sigma, omega, kappa, omega, upsilon, iota, sigma}
+2673488
+6331013
+
+10 is the randomized depth.
+R' B R' F U' F' D L R for 9 total actions.
+{xi, psi, mu, epsilon, beta, tau, nu, epsilon}
+5484167
+12261921
+
+10 is the randomized depth.
+R' D' D' B' B' D' R' F' for 8 total actions.
+{phi, delta, delta, psi, epsilon, phi, gamma, alpha}
+2016321
+5020256
+
