@@ -1,535 +1,539 @@
 1
 B 
-B' for 1 total actions.
+F' for 1 total actions.
 {alpha, kappa, kappa, alpha, alpha, kappa, kappa, alpha}
-1
-345
+6
+289
 
 1
 F' 
-B for 1 total actions.
+F for 1 total actions.
 {kappa, alpha, alpha, kappa, kappa, alpha, alpha, kappa}
-1
-205
+5
+181
 
 1
 F' 
-B for 1 total actions.
+F for 1 total actions.
 {kappa, alpha, alpha, kappa, kappa, alpha, alpha, kappa}
-1
-253
+5
+177
 
 1
 B 
-B' for 1 total actions.
+F' for 1 total actions.
 {alpha, kappa, kappa, alpha, alpha, kappa, kappa, alpha}
-1
+6
 166
 
 1
 R' 
-R for 1 total actions.
+L for 1 total actions.
 {alpha, alpha, theta, theta, alpha, alpha, theta, theta}
-1
-202
+9
+253
 
 1
 D 
-D' for 1 total actions.
+U' for 1 total actions.
 {alpha, alpha, alpha, alpha, iota, iota, iota, iota}
-1
-179
+2
+156
 
 1
 R 
-R' for 1 total actions.
+L' for 1 total actions.
 {alpha, alpha, epsilon, epsilon, alpha, alpha, epsilon, epsilon}
-1
-187
+10
+161
 
 1
 U 
-D' for 1 total actions.
+U' for 1 total actions.
 {zeta, zeta, zeta, zeta, alpha, alpha, alpha, alpha}
-1
-169
+2
+146
 
 1
 R 
-R' for 1 total actions.
+L' for 1 total actions.
 {alpha, alpha, epsilon, epsilon, alpha, alpha, epsilon, epsilon}
-1
-181
+10
+175
 
 1
 U 
-D' for 1 total actions.
+U' for 1 total actions.
 {zeta, zeta, zeta, zeta, alpha, alpha, alpha, alpha}
-1
-170
+2
+156
 
 2
 B L 
-D R' for 2 total actions.
+F' L' for 2 total actions.
 {sigma, sigma, kappa, alpha, theta, theta, kappa, alpha}
-2
-317
+16
+280
 
 2
 F' R' 
-B R for 2 total actions.
+U' L for 2 total actions.
 {kappa, alpha, theta, theta, kappa, alpha, sigma, sigma}
-2
-279
+11
+272
 
 2
 F' D 
-B D' for 2 total actions.
+L' U' for 2 total actions.
 {kappa, alpha, alpha, kappa, iota, iota, mu, mu}
-2
-289
+11
+272
 
 2
 B U 
-R D' for 2 total actions.
+F' U' for 2 total actions.
 {zeta, zeta, omicron, omicron, alpha, kappa, kappa, alpha}
-2
-334
+7
+308
 
 2
 R' B 
-R B' for 2 total actions.
+U' F' for 2 total actions.
 {alpha, omicron, omicron, theta, alpha, kappa, kappa, theta}
-2
-350
+8
+378
 
 1
 D U 
-D' D' for 2 total actions.
+U U for 2 total actions.
 {zeta, zeta, zeta, zeta, iota, iota, iota, iota}
 14
-435
+420
 
 2
 R D' 
-R' D for 2 total actions.
+F U for 2 total actions.
 {alpha, alpha, epsilon, epsilon, xi, zeta, zeta, xi}
-2
-298
+5
+252
 
 1
 U D 
-D' D' for 2 total actions.
+U U for 2 total actions.
 {zeta, zeta, zeta, zeta, iota, iota, iota, iota}
 14
-462
+378
 
 2
 R U 
-B D' for 2 total actions.
+L' U' for 2 total actions.
 {xi, zeta, zeta, xi, alpha, alpha, epsilon, epsilon}
-2
-286
+11
+257
 
 2
 U F 
-R B' for 2 total actions.
+U' F' for 2 total actions.
 {eta, zeta, zeta, rho, eta, alpha, alpha, rho}
-2
-282
+8
+253
 
 2
 B L R 
-D R' R' for 3 total actions.
+U L L for 3 total actions.
 {sigma, sigma, epsilon, epsilon, theta, theta, xi, xi}
-61
-1051
+97
+1149
 
 1
 F' R' L 
-D' for 1 total actions.
+U' for 1 total actions.
 {theta, theta, theta, theta, sigma, sigma, sigma, sigma}
-1
-208
+2
+164
 
 2
 F' D U 
-R' D' D' for 3 total actions.
+L' U U for 3 total actions.
 {omicron, omicron, zeta, zeta, iota, iota, mu, mu}
-85
-1407
+45
+740
 
 2
 B U L 
-R D' L' for 3 total actions.
+F' U' L' for 3 total actions.
 {omicron, sigma, omicron, omicron, omicron, theta, kappa, alpha}
-49
-947
+117
+1410
 
 3
 R' B D 
-R B' D' for 3 total actions.
+U' F' D' for 3 total actions.
 {alpha, omicron, omicron, theta, mu, mu, sigma, iota}
-51
-1005
+44
+646
 
 2
 D U R 
-D' D' R' for 3 total actions.
+F F L' for 3 total actions.
 {zeta, zeta, lambda, mu, iota, iota, lambda, mu}
-37
-895
+65
+833
 
 2
 R D' L' 
-R' D L for 3 total actions.
+F U L for 3 total actions.
 {omega, epsilon, epsilon, epsilon, lambda, epsilon, zeta, xi}
-49
-974
+114
+1428
 
 2
 U D L' 
-B' B' R for 3 total actions.
+U U L for 3 total actions.
 {mu, lambda, zeta, zeta, mu, lambda, iota, iota}
-37
-843
+45
+689
 
 2
 R U R' 
-B D' R for 3 total actions.
+L' U' R for 3 total actions.
 {xi, zeta, alpha, omicron, alpha, alpha, alpha, kappa}
-15
-597
+111
+1242
 
 2
 U F B 
-R B' B' for 3 total actions.
+L F F for 3 total actions.
 {eta, xi, kappa, rho, eta, xi, kappa, rho}
-85
-1342
+52
+815
 
 4
 B L R B' 
-D R' R' B for 4 total actions.
+L' U U F for 4 total actions.
 {sigma, pi, iota, epsilon, theta, zeta, lambda, xi}
-28
-763
+126
+1782
 
 2
 F' R' L R' 
-D' R for 2 total actions.
+F L for 2 total actions.
 {theta, theta, omega, beta, sigma, sigma, omega, beta}
-2
-263
+14
+421
 
 1
 F' D U R' 
-R' D' D' R for 4 total actions.
+L' F F L for 4 total actions.
 {omicron, omicron, iota, omicron, iota, iota, iota, omicron}
-429
-5231
+680
+6902
 
 3
 B U L R 
-R D' L' R' for 4 total actions.
+L U' R L for 4 total actions.
 {omicron, sigma, zeta, epsilon, omicron, theta, zeta, xi}
-94
-1563
+316
+3530
 
 3
 R' B D R' 
-R B' D' R for 4 total actions.
+U' F' D' R for 4 total actions.
 {alpha, omicron, omega, phi, mu, mu, pi, beta}
-144
-2638
+265
+3224
 
 1
 D U R L' 
-B' B' for 2 total actions.
+F F for 2 total actions.
 {mu, lambda, lambda, mu, mu, lambda, lambda, mu}
-14
-455
+22
+412
 
 2
 R D' L' U 
-R' D L U' for 4 total actions.
+F U L U' for 4 total actions.
 {xi, pi, xi, xi, lambda, epsilon, zeta, xi}
-707
-8653
+292
+3677
 
 3
 U D L' D' 
-B' B' R D for 4 total actions.
+U U L D for 4 total actions.
 {mu, lambda, zeta, zeta, alpha, kappa, omega, alpha}
-138
-2001
+201
+2395
 
 3
 R U R' D 
-B D' R D' for 4 total actions.
+L' U' R D' for 4 total actions.
 {xi, zeta, alpha, omicron, iota, iota, mu, iota}
-38
-980
+323
+3615
 
 2
 U F B F' 
-D' B' for 2 total actions.
+L F' for 2 total actions.
 {zeta, xi, kappa, zeta, alpha, xi, kappa, alpha}
-2
-279
+14
+285
 
 4
 B L R B' R 
-D R' R' B R' for 5 total actions.
+L' U U F R' for 5 total actions.
 {sigma, pi, beta, omega, theta, zeta, mu, phi}
-1547
-26257
+1723
+21188
 
 3
 F' R' L R' U 
-D' R U' for 3 total actions.
+F L U' for 3 total actions.
 {chi, rho, rho, pi, sigma, sigma, omega, beta}
-37
-746
+15
+407
 
 2
 F' D U R' B 
-R' D' D' R B' for 5 total actions.
+L' F F L B' for 5 total actions.
 {omicron, sigma, sigma, omicron, iota, upsilon, sigma, omicron}
-1442
-19271
+4284
+43807
 
 4
 B U L R D' 
-R D' L' R' D for 5 total actions.
+U L' F F U for 5 total actions.
 {omicron, sigma, zeta, epsilon, upsilon, psi, rho, gamma}
-1221
-17210
+450
+5264
 
 3
 R' B D R' L 
-R B' D' L' R for 5 total actions.
+L' F' L' D' U for 5 total actions.
 {phi, iota, omega, phi, theta, iota, pi, beta}
-1214
-16448
+943
+10944
 
 2
 D U R L' D 
-B' B' D' for 3 total actions.
+L L U' for 3 total actions.
 {mu, lambda, lambda, mu, eta, eta, psi, psi}
-37
-770
+64
+829
 
 3
 R D' L' U U 
-R' D R D' D' for 5 total actions.
+F U L U U for 5 total actions.
 {upsilon, upsilon, eta, upsilon, lambda, epsilon, zeta, xi}
-959
-13181
+776
+8796
 
 3
 U D L' D' F' 
-B' B' R D F for 5 total actions.
+U U L D F for 5 total actions.
 {xi, lambda, zeta, kappa, tau, kappa, omega, kappa}
-2424
-46248
+1780
+20539
 
 3
 R U R' D R 
-B D' R D' R' for 5 total actions.
+L' U' R D' R' for 5 total actions.
 {xi, zeta, zeta, mu, iota, iota, epsilon, chi}
-2981
-39750
+5693
+66195
 
 1
 U F B F' F' 
-R for 1 total actions.
+L for 1 total actions.
 {xi, xi, kappa, kappa, xi, xi, kappa, kappa}
-1
-189
+9
+215
 
 3
 B L R B' R B 
-D R' R' B R' B' for 6 total actions.
+L' U U F R' B' for 6 total actions.
 {sigma, psi, tau, omega, theta, theta, xi, phi}
-21830
-311790
+17121
+208663
 
 2
 F' R' L R' U D' 
-B D L R' for 4 total actions.
+U' L D' U for 4 total actions.
 {chi, rho, rho, pi, chi, theta, theta, pi}
-822
-9545
+324
+3939
 
 3
 F' D U R' B R' 
-R' D' D' R B' R for 6 total actions.
+L' F F L B' R for 6 total actions.
 {omicron, sigma, omega, omega, iota, upsilon, phi, phi}
-6283
-76459
+34633
+381168
 
 4
 B U L R D' U' 
-D R' B B D' D' for 6 total actions.
+U L' F F U U for 6 total actions.
 {tau, alpha, nu, kappa, upsilon, psi, rho, gamma}
-18262
-239027
+2729
+31534
 
 3
 R' B D R' L B' 
-R B' D L' R B' for 6 total actions.
+F U' L' D' U F for 6 total actions.
 {phi, nu, nu, phi, theta, upsilon, gamma, beta}
-10374
-124138
+30750
+322058
 
 3
 D U R L' D F 
-B' B' D' F' for 4 total actions.
+L L U' F' for 4 total actions.
 {delta, lambda, lambda, epsilon, beta, eta, psi, epsilon}
-194
-2652
+301
+3307
 
 3
 R D' L' U U F 
-R D F L' R' B' for 6 total actions.
+F U L U U F' for 6 total actions.
 {tau, upsilon, eta, omicron, zeta, epsilon, zeta, omicron}
-9643
-135714
+11717
+136764
 
 3
 U D L' D' F' R' 
-B' B' R D F R for 6 total actions.
+U U L D F R for 6 total actions.
 {xi, lambda, xi, omicron, tau, kappa, sigma, sigma}
-12306
-160231
+25255
+286447
 
 2
 R U R' D R F 
-B D' R D' R' F' for 6 total actions.
+L' U' R D' R' F' for 6 total actions.
 {nu, zeta, zeta, zeta, xi, iota, epsilon, epsilon}
-52812
-651845
+33563
+356692
 
 2
 U F B F' F' U 
-B' D' for 2 total actions.
+L U' for 2 total actions.
 {omicron, upsilon, upsilon, omicron, xi, xi, kappa, kappa}
-2
-349
+10
+310
 
 3
 B L R B' R B R 
-D R' R' B R' B' R' for 7 total actions.
+F' L B' R' B' R B for 7 total actions.
 {sigma, psi, sigma, omicron, theta, theta, delta, omega}
-99427
-1323179
+199030
+2288051
 
 2
 F' R' L R' U D' R' 
-B D L for 3 total actions.
+L' U L for 3 total actions.
 {chi, rho, beta, psi, chi, theta, chi, chi}
-49
-927
+119
+1569
 
 3
 F' D U R' B R' F' 
-R' D' D' R B' R F for 7 total actions.
+L' F F L B' R F for 7 total actions.
 {beta, sigma, omega, nu, upsilon, upsilon, phi, sigma}
-296551
-3836219
+225400
+2505959
 
 3
 B U L R D' U' B 
-D R' B B D' D' B' for 7 total actions.
+F' L' B F L L F' for 7 total actions.
 {tau, iota, zeta, kappa, upsilon, kappa, gamma, gamma}
-254871
-3417726
+171125
+2011037
 
 3
 R' B D R' L B' L 
-R' D' B' L R' D R' for 7 total actions.
+F U' L' D' U F L' for 7 total actions.
 {eta, delta, nu, phi, lambda, beta, gamma, beta}
-130667
-1709762
+307026
+3569091
 
 3
 D U R L' D F R' 
-B' B' D' F' R for 5 total actions.
+L L U' F' R for 5 total actions.
 {delta, lambda, nu, zeta, beta, eta, alpha, alpha}
-1530
-21020
+3910
+46389
 
 3
 R D' L' U U F U' 
-R D F L' R' B' U for 7 total actions.
+F U L U U F' U for 7 total actions.
 {xi, pi, kappa, rho, zeta, epsilon, zeta, omicron}
-206609
-2963563
+31738
+387999
 
 3
 U D L' D' F' R' L 
-B' B' R D F L' R for 7 total actions.
+L L F D R B' F for 7 total actions.
 {zeta, sigma, xi, omicron, kappa, gamma, sigma, sigma}
-55285
-753902
+182936
+2147901
 
 3
 R U R' D R F B 
-B D' R D' R' F' B' for 7 total actions.
+F U' L U' L' B F for 7 total actions.
 {nu, xi, mu, zeta, xi, xi, sigma, epsilon}
-87704
-1215841
+156174
+1886206
 
 1
 U F B F' F' U D' 
-B' for 1 total actions.
+F' for 1 total actions.
 {omicron, upsilon, upsilon, omicron, omicron, upsilon, upsilon, omicron}
-1
-196
+6
+192
 
 4
 B L R B' R B R F' 
-B' R B' L' B' L F' B' for 8 total actions.
+L' F R' B' R' F U U for 8 total actions.
 {upsilon, psi, sigma, beta, phi, theta, delta, omicron}
-1428526
-21601423
+322057
+3986882
 
 2
 F' R' L R' U D' R' U' 
-B D L U for 4 total actions.
+L' U L U for 4 total actions.
 {theta, phi, omicron, beta, chi, theta, chi, chi}
-375
-6237
+186
+2657
 
 3
 F' D U R' B R' F' F' 
-R' B' B' R B' L B' B' for 8 total actions.
+L' F F L B' R F F for 8 total actions.
 {iota, sigma, omega, phi, psi, upsilon, phi, pi}
-1425217
-24380640
+1541941
+20348944
 
 4
 B U L R D' U' B B 
-D' B' B' D D R for 6 total actions.
+F U U F F L for 6 total actions.
 {tau, xi, omega, kappa, upsilon, sigma, delta, gamma}
-8466
-135327
+23061
+320611
 
 3
 R' B D R' L B' L B' 
-R' D' B' L R' D R' B for 8 total actions.
+F U' L' D' U F L' B for 8 total actions.
 {eta, omega, kappa, phi, lambda, psi, phi, beta}
-1633164
-30427050
+2250128
+35198046
 
 3
 D U R L' D F R' R' 
-B' B' D' F' R' R' for 6 total actions.
+F F U' B' L L for 6 total actions.
 {delta, lambda, theta, eta, beta, eta, theta, omicron}
-4006
-80571
+23371
+394715
 
 4
 R D' L' U U F U' R' 
-R D F L' R' B' U R for 8 total actions.
+F U L U U F' U R for 8 total actions.
+{xi, pi, omicron, sigma, zeta, epsilon, phi, psi}
+2055518
+39461924
+

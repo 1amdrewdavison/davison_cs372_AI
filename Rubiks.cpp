@@ -394,15 +394,21 @@ struct node {
     bool isSolved;
 };
 
-std::vector<node*> generateChildren(node* scrambledCube) {
-    std::vector<node*> children;
+bool priority(node* left, node* right) {
+    return left->heuristic <= right->heuristic;
+};
+
+using priorityQueue = std::set<node*, decltype(priority)*>;
+
+priorityQueue generateChildren(node* scrambledCube) {
+    priorityQueue children(priority);
 
     for (int action = 0; action < 12; action++) {
         if (!isReverse(action, scrambledCube->action)) {
             cube newState = scrambledCube->state;
             applyMove(newState, action);
             auto child = new node{newState, scrambledCube, action, heuristic(newState), scrambledCube->path_cost + 1, isSolved(newState)};
-            children.push_back(child);
+            children.insert(child);
         }
     }
 
@@ -415,7 +421,7 @@ node* limitedSearch(node* scrambledCube, int valueLimit, int* exploredNodes) {
         return scrambledCube;
     }
     
-    std::vector<node*> children = generateChildren(scrambledCube);
+    priorityQueue children = generateChildren(scrambledCube);
 
     for (auto child : children) {
         *exploredNodes = *exploredNodes + 1;
@@ -448,6 +454,7 @@ solveResult solveIDA(node startNode) {
     auto startTime = std::chrono::steady_clock::now();
 
     while (!solution) {
+        std::cout << valueLimit;
         solution = limitedSearch(&startNode, valueLimit, &exploredNodes);
         valueLimit++;
     }
@@ -489,11 +496,11 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    int depth = 14;
+    int depth = 1;
     std::chrono::nanoseconds longestCase = std::chrono::nanoseconds(0);
 
-    while(longestCase < std::chrono::seconds(300) && depth < 15) {
-        for (int i = 0; i < 1; i++) {
+    while(depth < 15) {
+        for (int i = 0; i < 10 && longestCase < std::chrono::seconds(6000); i++) {
             std::mt19937 moveGenerator;
             auto playCube = Cube();
             moveGenerator.seed(i);
