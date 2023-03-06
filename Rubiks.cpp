@@ -299,10 +299,12 @@ std::string printCube(const cube rubiks) {
             orientationLiterals[rubiks[4]] + ", " + orientationLiterals[rubiks[5]] + ", " + orientationLiterals[rubiks[6]] + ", " + orientationLiterals[rubiks[7]] + "}";
 }
 
+//This function takes in two actions and returns if the new action is the reverse of the old action
 bool isReverse(int action, int oldAction) {
     return ((action + oldAction) % 4 == 1 && abs(action - oldAction) == 1);
 }
 
+//This function is just a switch to select which move to apply by number
 void applyMove(cube& rubiks, int move) {
     switch (move) {
         case 0:
@@ -348,7 +350,7 @@ void applyMove(cube& rubiks, int move) {
 //The cube can make
 //PARAMETER: rubiks is the cube to be randomized
 //PARAMETER: depth is the number of turns to be made
-//RETURNS: none
+//RETURNS: the sequence of random moves made
 std::string randomize(cube& rubiks, const int depth, std::mt19937 moveGenerator) {
     int previousMove = 100;
     std::string moveOrder = "";
@@ -374,9 +376,9 @@ std::string randomize(cube& rubiks, const int depth, std::mt19937 moveGenerator)
     return moveOrder;
 }
 
-//This function calculates a heuristic according to the orientations of cubelets
+//This function calculates a heuristic according to the orientations of cubelet
 //PARAMETER: rubiks is the state to be evaluated
-//RETURNS: an integer indicating the number of different orientations between the eight cubelets minus one
+//RETURNS: an integer indicating the number of different orientations between the eight cubelets divided by two, since each move can change up to four cubelets (half the cube)
 //This is similar to a Hamming distance
 int heuristic(const cube& rubiks) {
     std::set<int> uniqueOrientations(rubiks.begin(), rubiks.end());
@@ -394,12 +396,17 @@ struct node {
     bool isSolved;
 };
 
+//This is a function used to define a priority queue, so that those with a lower heuristic score are prioritized
 bool priority(node* left, node* right) {
     return left->heuristic <= right->heuristic;
 };
 
+//This is the type declaration for that queue
 using priorityQueue = std::set<node*, decltype(priority)*>;
 
+//This function takes in a node and generates children for that node by applying every action to the node and adding children
+//It ignores the children that would immediately reverse the move made
+//The priority queue the children are inserted into is organized by the heuristic, since they all have the same path cost
 priorityQueue generateChildren(node* scrambledCube) {
     priorityQueue children(priority);
 
@@ -415,7 +422,8 @@ priorityQueue generateChildren(node* scrambledCube) {
     return children;
 }
 
-//Helper function for IDA*
+//This function essentially executes IDA* by generating children for a node, going through each node and recursively exploring its children until a limit or solution is found
+//At each level, a priority queue is maintained to make more intelligent decisions
 node* limitedSearch(node* scrambledCube, int valueLimit, int* exploredNodes) {
     if (scrambledCube->isSolved) {
         return scrambledCube;
@@ -436,6 +444,7 @@ node* limitedSearch(node* scrambledCube, int valueLimit, int* exploredNodes) {
     return nullptr;
 }
 
+//Struct used for returning a solution and info about the solution
 struct solveResult {
     node startState;
     int exploredNodes;
@@ -443,10 +452,10 @@ struct solveResult {
     node* solution = nullptr;
 };
 
-
-//This function performs IDA* to find a solution
+//This function performs IDA* to find a solution. This function handles the iterative deeping until a solution is found, otherwise letting limitedSearch do the work
+//It also collects data around the process towards finding a solution
 //PARAMETER: rubiks is the cube to be solved
-//RETURNS: a node that is in a solved state if a solution is found, or null if no solution is found
+//RETURNS: a struct with information
 solveResult solveIDA(node startNode) {
     node* solution = nullptr;
     int valueLimit = startNode.heuristic;
@@ -466,6 +475,7 @@ solveResult solveIDA(node startNode) {
     return solveResult{startNode, exploredNodes, timeCost, solution};
 }
 
+//This function takes in a solution and then traverses the nodes backwards to print out the moves for the solution
 std::string printSolutionMoves(solveResult* solution) {
     std::string output = "";
     node* itr = solution->solution;
@@ -480,11 +490,13 @@ std::string printSolutionMoves(solveResult* solution) {
     return output + "for " + std::to_string(numActions) + " total actions.\n";
 }
 
+//This function prints out other information about how the solution was gathered (nodes visited and time elapsed)
 std::string printSolutionInfo(solveResult* solution) {
     return printCube(solution->startState.state) + "\n" + std::to_string(solution->exploredNodes) + "\n" + std::to_string(std::chrono::duration_cast<std::chrono::microseconds>(solution->timeCost).count()) + "\n";
 }
 
-//Main function that runs and handles the command-line interface of allowing a user to interact with a cube
+//Main function that runs IDA* for a depth of 1 to 14, or until the solution begin to take too long to find.
+//Each depth is generated 10 times and solved each time, with the info being output into a file.
 int main() {
     //Create output file
     std::ofstream idastar_output;
@@ -500,7 +512,7 @@ int main() {
     std::chrono::nanoseconds longestCase = std::chrono::nanoseconds(0);
 
     while(depth < 15) {
-        for (int i = 0; i < 10 && longestCase < std::chrono::seconds(6000); i++) {
+        for (int i = 0; i < 10 && longestCase < std::chrono::seconds(3600); i++) {
             std::mt19937 moveGenerator;
             auto playCube = Cube();
             moveGenerator.seed(i);
