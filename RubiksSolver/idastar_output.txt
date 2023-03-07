@@ -3,7 +3,7 @@ B
 B' for 1 total actions.
 {alpha, kappa, kappa, alpha, alpha, kappa, kappa, alpha}
 1
-469
+60
 
 1
 F' 
