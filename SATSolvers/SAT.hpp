@@ -27,7 +27,7 @@ Conjunction readDIMACS(std::ifstream& filename);
 
 Solution simpleHillClimbing(Conjunction);
 
-Solution constraintSolvingWithForwardSearch(Conjunction);
-
 Solution DPLL(Conjunction);
+
+Solution WalkSAT(Conjunction);
 
