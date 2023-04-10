@@ -44,110 +44,6 @@ puzzle readPuzzle(std::string filename) {
     return alpha;
 }
 
-//This calls SLIME to solve a puzzle once it is in CNF
-std::istringstream runSAT() {
-    std::array<char, 128> buf;
-    std::string solution = "";
-    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(".\\slime alphadoku_temp.cnf", "r"), pclose);
-
-    while (fgets(buf.data(), buf.size(), pipe.get()) != nullptr) {
-        solution += buf.data();
-    }
-
-    remove("alphadoku_temp.cnf");
-
-    return std::istringstream(solution);
-}
-
-//This reads in the output from SLIME
-puzzle readSolution(std::istringstream* solution) {
-    std::string first, line;
-    puzzle doku = {0};
-    int position = 0;
-    
-    while(*solution >> first) {
-        if (first == "c") {
-            //Comment line
-            std::getline(*solution, line);
-        } else if (first == " " || first == "v") {
-            //Ignore space or beginning of solution
-        } else if (first == "Assertion"){
-            //This means the solver failed
-            return doku;
-        } else if (first == "0") {
-            //End when end of line indicator found
-            break;
-        } else {
-            //Convert numbers into the alphabetic symbol and insert into data structure
-            int var = std::stoi(first);
-            if (var > 0) {
-                doku[(position/25)][(position%25)] = alphadoku_symbols[(var - 1) % 25];
-                position++;
-            }
-        }
-    }
-
-    return doku;
-}
-
-//Prints out first solution
-int printSolution(puzzle alphadoku) {
-    std::ofstream file;
-    file.open("alphadoku_solution.txt");
-
-    if (alphadoku[0][0] == 0) {
-        file << "No solution";
-        return 0;
-    }
-    
-    for (int row = 0; row < 25; row++) {
-        for (int col = 0; col < 25; col++) {
-            file << alphadoku[row][col] << " ";
-            if ((col + 1) % 5 == 0) {
-                file << " ";
-            }
-        }
-        if (row != 24) {
-            file << "\n";
-        }
-        if ((row + 1) % 5 == 0) {
-            file << "\n";
-        }
-    }
-
-    return 1;
-}
-
-//Prints out a second solution or confirms uniqueness
-int printSecondSolution(puzzle alphadoku) {
-    std::ofstream file;
-    file.open("alphadoku_solution.txt", std::ios_base::app);
-
-    if (alphadoku[0][0] == 0) {
-        file << "\nSolution is unique.";
-        return 0;
-    }
-    
-    file << "\n\n\n";
-
-    for (int row = 0; row < 25; row++) {
-        for (int col = 0; col < 25; col++) {
-            file << alphadoku[row][col] << " ";
-            if ((col + 1) % 5 == 0) {
-                file << " ";
-            }
-        }
-        if (row != 24) {
-            file << "\n";
-        }
-        if ((row + 1) % 5 == 0) {
-            file << "\n";
-        }
-    }
-
-    return 1;
-}
-
 //This counts the number of clauses needed for the assertions that make the puzzle
 int countPuzzleClauses(puzzle alphadoku) {
     int counter = 0;
@@ -263,6 +159,110 @@ void toDIMACS(puzzle alpha, puzzle firstSol) {
     }
 
     file.close();
+}
+
+//This calls SLIME to solve a puzzle once it is in CNF
+std::istringstream runSAT() {
+    std::array<char, 128> buf;
+    std::string solution = "";
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(".\\slime alphadoku_temp.cnf", "r"), pclose);
+
+    while (fgets(buf.data(), buf.size(), pipe.get()) != nullptr) {
+        solution += buf.data();
+    }
+
+    remove("alphadoku_temp.cnf");
+
+    return std::istringstream(solution);
+}
+
+//This reads in the output from SLIME
+puzzle readSolution(std::istringstream* solution) {
+    std::string first, line;
+    puzzle doku = {0};
+    int position = 0;
+    
+    while(*solution >> first) {
+        if (first == "c") {
+            //Comment line
+            std::getline(*solution, line);
+        } else if (first == " " || first == "v") {
+            //Ignore space or beginning of solution
+        } else if (first == "Assertion"){
+            //This means the solver failed
+            return doku;
+        } else if (first == "0") {
+            //End when end of line indicator found
+            break;
+        } else {
+            //Convert numbers into the alphabetic symbol and insert into data structure
+            int var = std::stoi(first);
+            if (var > 0) {
+                doku[(position/25)][(position%25)] = alphadoku_symbols[(var - 1) % 25];
+                position++;
+            }
+        }
+    }
+
+    return doku;
+}
+
+//Prints out first solution
+int printSolution(puzzle alphadoku) {
+    std::ofstream file;
+    file.open("alphadoku_solution.txt");
+
+    if (alphadoku[0][0] == 0) {
+        file << "No solution";
+        return 0;
+    }
+    
+    for (int row = 0; row < 25; row++) {
+        for (int col = 0; col < 25; col++) {
+            file << alphadoku[row][col] << " ";
+            if ((col + 1) % 5 == 0) {
+                file << " ";
+            }
+        }
+        if (row != 24) {
+            file << "\n";
+        }
+        if ((row + 1) % 5 == 0) {
+            file << "\n";
+        }
+    }
+
+    return 1;
+}
+
+//Prints out a second solution or confirms uniqueness
+int printSecondSolution(puzzle alphadoku) {
+    std::ofstream file;
+    file.open("alphadoku_solution.txt", std::ios_base::app);
+
+    if (alphadoku[0][0] == 0) {
+        file << "\nSolution is unique.";
+        return 0;
+    }
+    
+    file << "\n\n\n";
+
+    for (int row = 0; row < 25; row++) {
+        for (int col = 0; col < 25; col++) {
+            file << alphadoku[row][col] << " ";
+            if ((col + 1) % 5 == 0) {
+                file << " ";
+            }
+        }
+        if (row != 24) {
+            file << "\n";
+        }
+        if ((row + 1) % 5 == 0) {
+            file << "\n";
+        }
+    }
+
+    return 1;
 }
 
 int main() {
