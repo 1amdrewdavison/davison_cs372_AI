@@ -1,5 +1,7 @@
-//Written by Andrew Davison for CSC 372: Survey of Artificial Intelligence
-//A5: Part 2
+//Written by Andrew Davison for project A5 inCSC 372: Survey of Artificial Intelligence
+//This program encodes a 5 node Bayesian network. The program runs two different types of inference.
+//There is an exact inference method by computing the full joint distribution table.
+//There is an approximate inference method by using rejection sampling.
 
 #include <stdio.h>
 #include <iostream>
@@ -7,11 +9,13 @@
 #include <string>
 #include <random>
 
+//Defines how many times rejection sampling is run.
 #define NUM_ITERATIONS 10000000
 
 using distribution = std::vector<std::vector<std::vector<std::vector<std::vector<double>>>>>;
 using assignment = std::vector<int>;
 
+//These functions all act as lookup CPTs.
 double burglary(bool b) {
     return b ? 0.02 : 0.98;
 }
@@ -60,6 +64,7 @@ double maryCalls(bool m, bool a) {
     return 0.98;
 }
 
+//This function generates the full joint distribution.
 distribution generateDistribution() {
     distribution joint;
     
@@ -82,6 +87,7 @@ distribution generateDistribution() {
     return joint;
 }
 
+//This function calculates the probability of a given assignment according to the full joint distribution
 double fullJoint(assignment arguments) {
     double prob = 0.0;
     double given = 0.0;
@@ -95,10 +101,12 @@ double fullJoint(assignment arguments) {
             for (int a = 0; a < 2; a++) {
                 for (int j = 0; j < 2; j++) {
                     for (int m = 0; m < 2; m++) {
+                        //Check to see if this is a corresponding row to the input assignment
                         if ((arguments[0] == 4 || arguments[0] % 2 == b) && (arguments[1] == 4 || arguments[1] % 2 == e) && (arguments[2] == 4 || arguments[2] % 2 == a) &&
                             (arguments[3] == 4 || arguments[3] % 2 == j) && (arguments[4] == 4 || arguments[4] % 2 == m)) {
                             prob += joint[b][e][a][j][m];
                         }
+                        //Check to see if this row also fulfills the "given" clause
                         if ((arguments[0] / 2 != 1 || arguments[0] - 2 == b) && (arguments[1] / 2 != 1 || arguments[1] - 2 == e) && (arguments[2] / 2 != 1 || arguments[2] - 2 == a) &&
                             (arguments[3] / 2 != 1 || arguments[3] - 2 == j) && (arguments[4] / 2 != 1 || arguments[4] - 2 == m)) {
                             given += joint[b][e][a][j][m];
@@ -109,6 +117,7 @@ double fullJoint(assignment arguments) {
         }
     }
 
+    //If this is conditional, use the definition of conditional probability to find the answer.
     if (given > 0) {
         return prob / given;
     } else {
@@ -116,6 +125,7 @@ double fullJoint(assignment arguments) {
     }
 }
 
+//Generates a random event
 assignment generateSample() {
     assignment sample;
 
@@ -128,23 +138,28 @@ assignment generateSample() {
     return sample;
 }
 
+//Runs rejection sampling
 double rejection(assignment arguments) {
     int acceptedTrials = 0;
     int givenTrials = 0;
 
     for (int i = 0; i < NUM_ITERATIONS; i++) {
+        //Generate a random event
         assignment newSample = generateSample();
 
+        //Check to see if this is a valid corresponding event
         if ((arguments[0] == 4 || arguments[0] % 2 == newSample[0]) && (arguments[1] == 4 || arguments[1] % 2 == newSample[1]) && (arguments[2] == 4 || arguments[2] % 2 == newSample[2]) &&
             (arguments[3] == 4 || arguments[3] % 2 == newSample[3]) && (arguments[4] == 4 || arguments[4] % 2 == newSample[4])) {
             acceptedTrials++;
         }
+        //Check to see if this event fulfills "given" conditions
         if ((arguments[0] / 2 != 1 || arguments[0] - 2 == newSample[0]) && (arguments[1] / 2 != 1 || arguments[1] - 2 == newSample[1]) && (arguments[2] / 2 != 1 || arguments[2] - 2 == newSample[2]) &&
             (arguments[3] / 2 != 1 || arguments[3] - 2 == newSample[3]) && (arguments[4] / 2 != 1 || arguments[4] - 2 == newSample[4])) {
             givenTrials++;
         }
     }
 
+    //If this is conditional, use the definition of conditional probability to find the answer.
     if (givenTrials > 0) {
         return (double)acceptedTrials / givenTrials;
     } else {
@@ -152,12 +167,14 @@ double rejection(assignment arguments) {
     }
 }
 
-//0 is false, 1 is true, 2 is given false, 3 is given true
 int main(int argc, char* argv[]) {
+    //Initialize an assignment to all undetermined
     assignment arguments(5, 4);
     bool validInput = true;
     int given = 0;
 
+    //Take Input:
+    //In the assignment, a 0 is false, 1 is true, 2 is false in the given clause, 3 is true in the given clause, and 4 is undefined.
     for (int i = 1; i < argc && validInput; i++) {
         std::string argument = argv[i];
         
@@ -165,18 +182,22 @@ int main(int argc, char* argv[]) {
             //Cannot appear twice or as the last element
             !given && i != argc - 1 ? given = 2 : validInput = false;
         } else {
+            //Determine the corresponding node
             char variable = argument.at(0);
 
             switch (variable) {
                 case 'B':
+                    //Check to see that this node has not appeared already
                     if (arguments[0] != 4) {
                         validInput = false;
                         break;
                     }
 
+                    //Assign a value according to its truth value and whether it is in the "given" clause
                     argument.at(1) == 't' ? arguments[0] = 1 + given: arguments[0] = 0 + given;
                     break;
                 case 'E':
+                    //Do the same
                     if (arguments[1] != 4) {
                         validInput = false;
                         break;
@@ -215,14 +236,17 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    //If the input was invalid, inform the user and terminate.
     if (!validInput) {
         std::cout << "Invalid input format.";
         return -1;
     }
 
+    //Find the probabilities
     double exact = fullJoint(arguments);
     double approx = rejection(arguments);
 
+    //Display results to user with a precision of 10^-6
     std::cout.precision(6);
     std::cout << "Exact inference by enumeration found probability " << exact << "\n";
     std::cout << "Approximate inference by rejection sampling found probability " << approx << "\n";
