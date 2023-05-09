@@ -190,6 +190,7 @@ solution policyIteration(int numIterations = 100) {
     }
 
     while (!unchanged) {
+        //Iterate for utilities
         for (int i = 0; i < numIterations; i++) {
             for (int s = 0; s < 16; s++) {
                 double total = 0;
@@ -204,10 +205,10 @@ solution policyIteration(int numIterations = 100) {
         }
 
         unchanged = true;
+        //Determine policy
         for (int s = 0; s < 16; s++) {
             std::vector<float> sum_over_actions;
 
-            //Sum over the next states for each action
             for (int a = 0; a < 4; a++) {
                 sum_over_actions.push_back(0);
                 
@@ -219,6 +220,7 @@ solution policyIteration(int numIterations = 100) {
             auto maxUtilityPointer = std::max_element(sum_over_actions.begin(), sum_over_actions.end());
             int bestAction = std::distance(sum_over_actions.begin(), maxUtilityPointer);
 
+            //Select best policy
             if (*maxUtilityPointer > sum_over_actions[pi[s]]) {
                 pi[s] = bestAction;
                 unchanged = false;
@@ -229,6 +231,7 @@ solution policyIteration(int numIterations = 100) {
     return solution{u, pi};
 }
 
+//Pretty prints solution
 void printSolution(solution sol) {
     std::cout << "Utility function:\n";
     for (int i = 3; i > -1; i--) {
